@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 17:11:50 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/01/24 19:17:11 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/01/25 19:00:22 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,6 @@ void	ft_adjust_zoom(t_point *vector, t_map *map, int zoom);
 void	ft_rotate_vector(t_point *point, t_map *map);
 void	ft_position_vector(t_point *vector, t_map *map, int zoom);
 int		ft_abs(int nbr);
-int		ft_gradiant(t_point *pt0, t_point *pt1, float t);
+int		ft_gradiant(int color, double t);
 
 #endif
