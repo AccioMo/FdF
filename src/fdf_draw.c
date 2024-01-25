@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 17:19:20 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/01/25 19:02:02 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/01/25 19:10:04 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,10 @@ int	ft_abs(int nbr)
 
 double	ft_decimal(double nb)
 {
-	if (nb > 0)
+	// if (nb > 0)
 		return (nb - (int)nb);
-	else
-		return (nb - ((int)nb + 1));
+	// else
+	// 	return (nb - ((int)nb + 1));
 }
 
 double	ft_rev_decimal(double nb)

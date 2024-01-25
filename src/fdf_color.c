@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 20:09:55 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/01/25 19:00:38 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/01/25 19:08:39 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	ft_gradiant(int color, double t)
 	int	b;
 
 	ts = t * 0xff;
-	ft_printf("ts: %d\n", t);
+	// printf("ts: %f\n", t);
 	r = color >> 16 & 0xff;
 	g = color >> 8 & 0xff;
 	b = color & 0xff;

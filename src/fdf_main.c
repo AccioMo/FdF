@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 17:11:16 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/01/24 19:12:06 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/01/25 19:09:00 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	main(int argc, char *argv[])
 
 	if (argc != 2)
 		return (ft_putstr_fd("usage: ./fdf [map_name].ber\n", 2), EXIT_SUCCESS);
-	env.map.zoom = 60;
+	env.map.zoom = 10;
 	ft_get_map(*(argv + 1), &env.map);
 	ft_print_map_info(&env.map);
 	// ft_isometric_projection(&map);
