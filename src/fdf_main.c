@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 17:11:16 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/16 18:39:03 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/16 23:16:02 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int	ft_end(void *param)
 	env = (t_env *)param;
 	mlx_destroy_image(env->mlx, env->img.img);
 	mlx_destroy_window(env->mlx, env->win);
+	ft_free((void **)env->map.map);
 	exit(0);
 	return (1);
 }
@@ -89,22 +90,22 @@ void	ft_mlx_rotate(int keycode, t_env *env)
 {
 	if (keycode == KEY_LEFT)
 	{
-		env->map.x_angle -= 0.1;
+		env->map.x_angle -= 0.01;
 		ft_draw_map(env);
 	}
 	else if (keycode == KEY_RIGHT)
 	{
-		env->map.x_angle += 0.1;
+		env->map.x_angle += 0.01;
 		ft_draw_map(env);
 	}
 	else if (keycode == KEY_DOWN)
 	{
-		env->map.y_angle -= 0.1;
+		env->map.y_angle -= 0.01;
 		ft_draw_map(env);
 	}
 	else if (keycode == KEY_UP)
 	{
-		env->map.y_angle -= 0.1;
+		env->map.y_angle -= 0.01;
 		ft_draw_map(env);
 	}
 }
@@ -135,29 +136,63 @@ int	ft_key_event(int keycode, void *env)
 	return (0);
 }
 
-int	ft_mouse_event(int mousecode, int x, int y, void *param)
+int	ft_mouse_move(int x, int y, void *param)
 {
 	t_env	*env;
 
 	env = (t_env *)param;
-	if (mousecode == MOUSE_RIGHT)
+	if (env->mouse.click == MOUSE_LEFT)
 	{
-		ft_printf("hello\n");
-		env->map.zoom = 30;
+		env->map.x_offset = x - env->mouse.x;
+		env->map.y_offset = y - env->mouse.y;
+		env->mouse.x = x - env->map.x_offset;
+		env->mouse.y = y - env->map.y_offset;
 		ft_draw_map(env);
-		return (0);
 	}
-	else if (mousecode == MOUSE_SCROLL_UP)
+	else if (env->mouse.click == MOUSE_RIGHT)
 	{
-		env->map.zoom += 5;
+		env->map.x_angle += (x - env->mouse.x) * 0.001;
+		env->map.y_angle += (y - env->mouse.y) * 0.001;
+		env->mouse.x = x - env->map.x_offset;
+		env->mouse.y = y - env->map.y_offset;
+		// env->map.z_angle += y;
+		ft_draw_map(env);
+	}
+	return (0);
+}
+
+int	ft_mouse_down(int mousecode, int x, int y, void *param)
+{
+	t_env	*env;
+
+	env = (t_env *)param;
+	if (mousecode == MOUSE_SCROLL_UP)
+	{
+		if (env->map.zoom > 5)
+			env->map.zoom -= 5;
 		ft_draw_map(env);
 	}
 	else if (mousecode == MOUSE_SCROLL_DOWN)
 	{
-		env->map.zoom -= 5;
+		env->map.zoom += 5;
 		ft_draw_map(env);
 	}
-	return (1);
+	else
+	{
+		env->mouse.click = mousecode;
+		env->mouse.x = x - env->map.x_offset;
+		env->mouse.y = y - env->map.y_offset;
+	}
+	return (0);
+}
+
+int	ft_mouse_up(int mousecode, int x, int y, void *param)
+{
+	t_env	*env;
+
+	env = (t_env *)param;
+	env->mouse.click = 0;
+	return (0);
 }
 
 int	main(int argc, char *argv[])
@@ -166,7 +201,10 @@ int	main(int argc, char *argv[])
 
 	if (argc != 2)
 		return (ft_putstr_fd("usage: ./fdf [map_name].fdf\n", 2), EXIT_SUCCESS);
+	env.map.max_z = INT_MIN;
+	env.map.min_z = INT_MAX;
 	ft_get_map(*(argv + 1), &env.map);
+	ft_default_color(&env.map);
 	ft_set_params(&env.map);
 	// ft_print_map_info(&env.map);
 	env.mlx = mlx_init();
@@ -176,10 +214,11 @@ int	main(int argc, char *argv[])
 		&env.img.n_bytes, &env.img.endian);
 	if (!env.img.addr)
 		return (-1);
-	// printf("%d\n", env.img.bpp);
 	mlx_key_hook(env.win, ft_key_event, (void *)&env);
-	mlx_mouse_hook(env.win, ft_mouse_event, (void *)&env);
-	mlx_hook(env.win, 17, 0, ft_end, (void *)&env);
+	mlx_hook(env.win, ON_MOUSEMOVE, 0, ft_mouse_move, (void *)&env);
+	mlx_hook(env.win, ON_MOUSEDOWN, 0, ft_mouse_down, (void *)&env);
+	mlx_hook(env.win, ON_MOUSEUP, 0, ft_mouse_up, (void *)&env);
+	mlx_hook(env.win, ON_DESTROY, 0, ft_end, (void *)&env);
 	ft_draw_map(&env);
 	mlx_loop(env.mlx);
 }

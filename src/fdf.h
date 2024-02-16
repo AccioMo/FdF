@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 17:11:50 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/16 18:00:02 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/16 22:16:51 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <fcntl.h>
 # include <stdlib.h>
 # include <stdio.h>
+# include <limits.h>
 # include <mlx.h>
 # include <math.h>
 # include "../libft/libft.h"
@@ -30,6 +31,14 @@
 # define MOUSE_MIDDLE 3
 # define MOUSE_SCROLL_UP 4
 # define MOUSE_SCROLL_DOWN 5
+
+# define ON_KEYDOWN 2
+# define ON_KEYUP 3
+# define ON_MOUSEDOWN 4
+# define ON_MOUSEUP 5
+# define ON_MOUSEMOVE 6
+# define ON_EXPOSE 12
+# define ON_DESTROY 17
 
 # define ESC 53
 # define SPACE 49
@@ -78,10 +87,17 @@ typedef struct s_map
 	t_point	**map;
 }	t_map;
 
+typedef struct s_mouse
+{
+	int	x;
+	int	y;
+	int	click;
+}	t_mouse;
 typedef struct s_env
 {
 	void	*mlx;
 	void	*win;
+	t_mouse	mouse;
 	t_image	img;
 	t_map	map;
 }	t_env;
@@ -91,7 +107,9 @@ void	ft_draw_map(t_env *env);
 int		ft_atoi_hex(char *hex);
 void	ft_rotate(t_point *point, t_map *map);
 int		ft_abs(int nbr);
+void	ft_free(void **ptr);
 int		ft_color(int color_a, int color_b, float t, int rev);
 int		ft_gradiant(int color, float t);
+void	ft_default_color(t_map *map);
 
 #endif

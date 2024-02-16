@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 17:19:20 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/16 18:51:39 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/16 23:02:37 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	ft_draw_line(t_point *a, t_point *b, float step, int col, t_image *img)
 		{
 			col = ft_color(a->color, b->color, (b->x - pos_x) / d, a->z > b->z);
 			ft_put_pixel(pos_y, pos_x, ft_gradiant(col, ft_rfpart(pos_y)), img);
-			ft_put_pixel(pos_y - 1, pos_x, ft_gradiant(col, ft_fpart(pos_y)), img);
+			ft_put_pixel(pos_y + 1, pos_x, ft_gradiant(col, ft_fpart(pos_y)), img);
 			pos_y += step;
 			pos_x++;
 		}
@@ -100,7 +100,7 @@ void	ft_draw_line(t_point *a, t_point *b, float step, int col, t_image *img)
 		{
 			col = ft_color(a->color, b->color, (b->x - pos_x) / d, a->z > b->z);
 			ft_put_pixel(pos_x, pos_y, ft_gradiant(col, ft_rfpart(pos_y)), img);
-			ft_put_pixel(pos_x, pos_y - 1, ft_gradiant(col, ft_fpart(pos_y)), img);
+			ft_put_pixel(pos_x, pos_y + 1, ft_gradiant(col, ft_fpart(pos_y)), img);
 			pos_y += step;
 			pos_x++;
 		}
@@ -130,6 +130,20 @@ void	ft_clear_map(t_image *img)
 		img->addr[i++] = '\0';
 }
 
+void	ft_print_key(t_env *env)
+{
+	int	y;
+
+	y = 0;
+	mlx_string_put(env->mlx, env->win, 1600, y += 20, 0xffcc8f, "Tips:");
+	mlx_string_put(env->mlx, env->win, 1600, y += 35, 0xffcc8f, "Scroll or press +/- to zoom");
+	mlx_string_put(env->mlx, env->win, 1600, y += 30, 0xffcc8f, "Use W, A, S, and D to move");
+	mlx_string_put(env->mlx, env->win, 1600, y += 30, 0xffcc8f, "Switch Projection:");
+	mlx_string_put(env->mlx, env->win, 1600, y += 25, 0xffcc8f, "I for Isometric");
+	mlx_string_put(env->mlx, env->win, 1600, y += 25, 0xffcc8f, "P for Parallel");
+	mlx_string_put(env->mlx, env->win, 1600, y += 25, 0xffcc8f, "Spacebar to reset");
+}
+
 void	ft_draw_map(t_env *env)
 {
 	t_map	*map;
@@ -155,4 +169,5 @@ void	ft_draw_map(t_env *env)
 		h++;
 	}
 	mlx_put_image_to_window(env->mlx, env->win, env->img.img, 0, 0);
+	ft_print_key(env);
 }

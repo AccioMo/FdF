@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 17:27:09 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/16 18:53:27 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/16 23:32:29 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,42 @@ void	ft_free(void **ptr)
 	free(hold);
 }
 
-int	ft_default_color(void)
+void	ft_default_color(t_map *map)
 {
-	return (0x00ffffff);
+	double	p;
+	int		i;
+	int		j;
+
+	i = 0;
+	while (i < map->height)
+	{
+		j = 0;
+		while (j < map->width)
+		{
+			if (map->map[i][j].z >= 0 && !map->map[i][j].color)
+			{
+				p = map->map[i][j].z / map->max_z;
+				if (p > 0.98)
+					map->map[i][j].color = 0xffbf00;
+				else if (p > 0.40)
+					map->map[i][j].color = 0x4895ef;
+				else
+					map->map[i][j].color = 0xb5179e;
+			}
+			else if (!map->map[i][j].color)
+			{
+				p = map->map[i][j].z / map->min_z;
+				if (p > 0.80)
+					map->map[i][j].color = 0x672c8f;
+				else if (p > 0.20)
+					map->map[i][j].color = 0x400e78;
+				else
+					map->map[i][j].color = 0x010057;
+			}
+			j++;
+		}
+		i++;
+	}
 }
 
 int	ft_parse_value(t_point *pos, char *value)
@@ -58,7 +91,7 @@ int	ft_parse_value(t_point *pos, char *value)
 	}
 	else
 	{
-		pos->color = ft_default_color();
+		pos->color = 0;
 		pos->z = ft_atoi(value);
 	}
 	return (0);
@@ -82,6 +115,10 @@ static t_point	*ft_get_row(char **input, int height, t_map *map)
 		pos[i].y = height;
 		if (ft_parse_value(&pos[i], input[i]) < 0)
 			return (NULL);
+		if (pos->z > map->max_z)
+			map->max_z = pos->z;
+		if (pos->z < map->min_z)
+			map->min_z = pos->z;
 		i++;
 	}
 	return (pos);
@@ -115,7 +152,7 @@ char	**ft_parse(int fd, t_map *map)
 		map->width = ft_get_len(split_line);
 	if (map->width != ft_get_len(split_line))
 	{
-		ft_putstr_fd("Inconsistent map width.\n", 2);
+		ft_putstr_fd("\033[0;31mError: Inconsistent map width.\n\033[0m", 2);
 		return (NULL);
 	}
 	return (split_line);
@@ -129,7 +166,8 @@ void	ft_get_map(char *file, t_map *map)
 
 	i = 0;
 	map->height = ft_get_map_height(file);
-	map->map = (t_point **)malloc(map->height * sizeof(t_point *));
+	map->map = (t_point **)malloc((map->height + 1) * sizeof(t_point *));
+	map->map[map->height] = NULL;
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 		return (perror(file));
@@ -140,7 +178,7 @@ void	ft_get_map(char *file, t_map *map)
 		ft_free((void **)column);
 		if (!map->map[i])
 		{
-			ft_free((void **)map);
+			ft_free((void **)map->map);
 			close(fd);
 			exit(1);
 		}
