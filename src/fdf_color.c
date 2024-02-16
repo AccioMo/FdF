@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 20:09:55 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/01/25 19:08:39 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/16 13:43:32 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,32 @@ int	ft_intrapolate(int r0, int r1, float t)
 	return (r0 + (r1 - r0) * t);
 }
 
-int	ft_gradiant(int color, double t)
+static void	ft_swap(int *a, int *b)
+{
+	int	c;
+
+	c = *a;
+	*a = *b;
+	*b = c;
+}
+
+int	ft_color(int color_a, int color_b, float t, int rev)
+{
+	int	ts;
+	int	r;
+	int	g;
+	int	b;
+
+	if (rev)
+		ft_swap(&color_a, &color_b);
+	ts = ft_intrapolate((color_a >> 24) & 0xff, (color_b >> 24) & 0xff, t);
+	r = ft_intrapolate((color_a >> 16) & 0xff, (color_b >> 16) & 0xff, t);
+	g = ft_intrapolate((color_a >> 8) & 0xff, (color_b >> 8) & 0xff, t);
+	b = ft_intrapolate(color_a & 0xff, color_b & 0xff, t);
+	return (ts << 24 | r << 16 | g << 8 | b);
+}
+
+int	ft_gradiant(int color, float t)
 {
 	int	ts;
 	int	r;
@@ -47,15 +72,8 @@ int	ft_gradiant(int color, double t)
 	int	b;
 
 	ts = t * 0xff;
-	// printf("ts: %f\n", t);
 	r = color >> 16 & 0xff;
 	g = color >> 8 & 0xff;
 	b = color & 0xff;
-	
-	// ts = ft_intrapolate((pt0->color >> 24) & 0xff, (pt1->color >> 24) & 0xff, t);
-	// r = ft_intrapolate((pt0->color >> 16) & 0xff, (pt1->color >> 16) & 0xff, t);
-	// g = ft_intrapolate((pt0->color >> 8) & 0xff, (pt0->color >> 8) & 0xff, t);
-	// b = ft_intrapolate(pt0->color & 0xff, pt0->color & 0xff, t);
-	// ft_printf("r: %d, g: %d, b: %d\n", r, g, b);
 	return (ts << 24 | r << 16 | g << 8 | b);
 }

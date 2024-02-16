@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 21:34:02 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/01/24 19:17:00 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/16 14:27:46 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,91 +41,29 @@ static void	ft_rotate_z(t_point *point, double z_angle)
 	point->y = x * sin(z_angle) + y * cos(z_angle);
 }
 
-void	ft_sbzero(double vector[3])
-{
-	int	i;
-
-	i = 0;
-	while (i < 3)
-		vector[i] = 0;
-}
-
-void	ft_mul_matrix(double basis[3][3], double vector[3], double result[3])
-{
-	int		i;
-	int		j;
-
-	i = 0;
-	while (i < 3)
-	{
-		j = 0;
-		result[i] = 0;
-		while (j < 3)
-		{
-			result[i] += (vector[j] * basis[i][j]);
-			j++;
-		}
-		i++;
-	}
-}
-
-void	ft_3d_mul_matrix(double mx1[3][3], double mx2[3][3], double res[3][3])
-{
-	int	i;
-	int	j;
-	int	k;
-
-	i = 0;
-	while (i < 3)
-	{
-		j = 0;
-		while (j < 3)
-		{
-			res[i][j] = 0;
-			k = 0;
-			while (k < 3)
-			{
-				res[i][j] += mx1[i][k] * mx2[k][j];
-				k++;
-			}
-			j++;
-		}
-		i++;
-	}
-}
-
-void	ft_position_vector(t_point *vector, t_map *map, int zoom)
+void	ft_position(t_point *point, t_map *map)
 {
 	int	x_pos;
 	int	y_pos;
 
-	x_pos = WINDOW_WIDTH / 2 - (zoom * map->width / 2);
-	y_pos = WINDOW_HEIGHT / 2 - (zoom * map->height / 2);
-	vector->x = vector->x + x_pos;
-	vector->y = vector->y + y_pos;
-	vector->z = vector->z;
+	point->x += map->x_offset * map->zoom;
+	point->y += map->y_offset * map->zoom;
 }
 
-void	ft_adjust_zoom(t_point *vector, t_map *map, int zoom)
+void	ft_zoom(t_point *point, int zoom)
 {
-	vector->x *= zoom;
-	vector->y *= zoom;
-	vector->z *= zoom * 0.6;
+	point->x *= zoom;
+	point->y *= zoom;
+	point->z *= zoom * 0.6;
 }
 
-void	ft_rotate_vector(t_point *point, t_map *map)
+void	ft_rotate(t_point *point, t_map *map)
 {
-	// double	mx1[3][3];
-	// double	mx2[3][3];
-	// double	mx3[3][3];
-	// double	basis[3][3];
-	// double	rotated_vector[3];
-	// double	vector[3];
-	ft_adjust_zoom(point, map, map->zoom);
+	ft_zoom(point, map->zoom);
 	ft_rotate_x(point, -0.615472907);
 	ft_rotate_y(point, -0.523599);
 	ft_rotate_z(point, M_PI / 6);
-	ft_position_vector(point, map, map->zoom);
+	ft_position(point, map);
 }
 
 // void	ft_isometric_projection(t_map *map)

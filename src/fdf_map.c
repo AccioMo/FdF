@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 17:27:09 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/01/24 19:11:01 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/16 13:31:49 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ static int	ft_get_map_height(char *file)
 	return (height);
 }
 
-void	ft_free(char **ptr)
+void	ft_free(void **ptr)
 {
-	char	**hold;
+	void	**hold;
 
 	hold = ptr;
 	if (!ptr)
@@ -38,32 +38,53 @@ void	ft_free(char **ptr)
 	free(hold);
 }
 
-static t_point	*ft_get_row(char **input, int width, int height, t_map *map)
+int	ft_default_color(void)
 {
-	t_point	*dot;
+	return (0x00ffffff);
+}
+
+int	ft_parse_value(t_point *pos, char *value)
+{
+	char	**parsed_value;
+
+	if (ft_strchr(value, ','))
+	{
+		parsed_value = ft_split(value, ',');
+		if (!parsed_value)
+			return (-1);
+		pos->color = ft_atoi_hex(parsed_value[1]);
+		pos->z = ft_atoi(parsed_value[0]);
+		ft_free((void **)parsed_value);
+	}
+	else
+	{
+		pos->color = ft_default_color();
+		pos->z = ft_atoi(value);
+	}
+	return (0);
+}
+
+static t_point	*ft_get_row(char **input, int height, t_map *map)
+{
 	char	**values;
+	t_point	*pos;
 	int		i;
 
 	i = 0;
-	dot = (t_point *)malloc(width * sizeof(t_point));
-	if (!dot)
-		return (ft_free(input), NULL);
-	while (i < width)
+	if (!input)
+		return (NULL);
+	pos = (t_point *)malloc(map->width * sizeof(t_point));
+	if (!pos)
+		return (NULL);
+	while (i < map->width)
 	{
-		values = ft_split(*(input + i), ',');
-		if (!values)
-			return(NULL);
-		(dot + i)->z = ft_atoi(values[0]);
-		(dot + i)->y = height;
-		(dot + i)->x = i;
-		if (values[1])
-			(dot + i)->color = ft_atoi_hex(values[1]);
-		else
-			(dot + i)->color = 0x00ffffff - ft_atoi(values[0]);
-		// ft_rotate_vector((dot + i), map);
+		pos[i].x = i;
+		pos[i].y = height;
+		if (ft_parse_value(&pos[i], input[i]) < 0)
+			return (NULL);
 		i++;
 	}
-	return (ft_free(input), dot);
+	return (pos);
 }
 
 int	ft_get_len(char **ptr)
@@ -78,45 +99,52 @@ int	ft_get_len(char **ptr)
 	return (i);
 }
 
-// void	ft_print_map_info(t_map *map)
-// {
-// 	int	i;
-// 	int	j;
+char	**ft_parse(int fd, t_map *map)
+{
+	char	*line;
+	char	**split_line;
 
-// 	i = 0;
-// 	ft_printf("w: %d, h: %d\n", map->width, map->height);
-// 	while (i < map->height)
-// 	{
-// 		j = 0;
-// 		while (j < map->width)
-// 			ft_printf("(x: %d, y: %d, z, %d)\n", map->map[i][j++].x, map->map[i][j++].y, map->map[i][j++].z);
-// 		ft_printf("\n");
-// 		i++;
-// 	}
-// }
+	line = get_next_line(fd);
+	if (!line)
+		return (NULL);
+	split_line = ft_split(line, ' ');
+	free(line);
+	if (!split_line)
+		return (NULL);
+	if (!map->width)
+		map->width = ft_get_len(split_line);
+	if (map->width != ft_get_len(split_line))
+	{
+		ft_putstr_fd("Inconsistent map width.\n", 2);
+		return (NULL);
+	}
+	return (split_line);
+}
 
 void	ft_get_map(char *file, t_map *map)
 {
-	char	*tmp_line;
-	char	**tmp_split_line;
+	char	**column;
 	int		fd;
-	int		y;
+	int		i;
 
-	y = 0;
+	i = 0;
 	map->height = ft_get_map_height(file);
 	map->map = (t_point **)malloc(map->height * sizeof(t_point *));
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 		return (perror(file));
-	while (y < map->height)
+	while (i < map->height)
 	{
-		tmp_line = get_next_line(fd);
-		tmp_split_line = ft_split(tmp_line, ' ');
-		free(tmp_line);
-		map->width = ft_get_len(tmp_split_line);
-		*(map->map + y) = ft_get_row(tmp_split_line, map->width, y, map);
-		y++;
+		column = ft_parse(fd, map);
+		map->map[i] = ft_get_row(column, i, map);
+		ft_free((void **)column);
+		if (!map->map[i])
+		{
+			ft_free((void **)map);
+			close(fd);
+			exit(1);
+		}
+		i++;
 	}
-	// ft_print_map_info(map);
 	close(fd);
 }
