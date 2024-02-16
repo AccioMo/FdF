@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 17:19:20 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/16 14:27:19 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/16 18:51:39 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,28 +77,32 @@ float	ft_get_step(t_point *a, t_point *b, int steep)
 void	ft_draw_line(t_point *a, t_point *b, float step, int col, t_image *img)
 {
 	float	d;
+	float	pos_x;
+	float	pos_y;
 
-	d = b->x - a->x;
+	pos_y = a->y;
+	pos_x = a->x;
+	d = b->x - pos_x;
 	if (col)
 	{
-		while (a->x <= b->x)
+		while (pos_x <= b->x)
 		{
-			col = ft_color(a->color, b->color, (b->x - a->x) / d, a->z > b->z);
-			ft_put_pixel(a->y, a->x, ft_gradiant(col, ft_rfpart(a->y)), img);
-			ft_put_pixel(a->y - 1, a->x, ft_gradiant(col, ft_fpart(a->y)), img);
-			a->y += step;
-			a->x++;
+			col = ft_color(a->color, b->color, (b->x - pos_x) / d, a->z > b->z);
+			ft_put_pixel(pos_y, pos_x, ft_gradiant(col, ft_rfpart(pos_y)), img);
+			ft_put_pixel(pos_y - 1, pos_x, ft_gradiant(col, ft_fpart(pos_y)), img);
+			pos_y += step;
+			pos_x++;
 		}
 	}
 	else
 	{
-		while (a->x <= b->x)
+		while (pos_x <= b->x)
 		{
-			col = ft_color(a->color, b->color, (b->x - a->x) / d, a->z > b->z);
-			ft_put_pixel(a->x, a->y, ft_gradiant(col, ft_rfpart(a->y)), img);
-			ft_put_pixel(a->x, a->y - 1, ft_gradiant(col, ft_fpart(a->y)), img);
-			a->y += step;
-			a->x++;
+			col = ft_color(a->color, b->color, (b->x - pos_x) / d, a->z > b->z);
+			ft_put_pixel(pos_x, pos_y, ft_gradiant(col, ft_rfpart(pos_y)), img);
+			ft_put_pixel(pos_x, pos_y - 1, ft_gradiant(col, ft_fpart(pos_y)), img);
+			pos_y += step;
+			pos_x++;
 		}
 	}
 }
@@ -118,10 +122,12 @@ void	ft_aa_draw(t_point a, t_point b, t_image *img, t_map *map)
 void	ft_clear_map(t_image *img)
 {
 	int	len;
+	int	i;
 
-	len = WIN_HEIGHT * WIN_WIDTH / img->bpp;
-	while (len--)
-		img->addr[len] = '\0';
+	i = 0;
+	len = WIN_WIDTH * WIN_HEIGHT * (img->bpp / 8);
+	while (i < len)
+		img->addr[i++] = '\0';
 }
 
 void	ft_draw_map(t_env *env)

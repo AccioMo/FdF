@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 17:11:50 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/16 14:19:21 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/16 18:00:02 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ typedef struct s_point
 	float	x;
 	float	y;
 	float	z;
-	int		color;
+	unsigned int	color;
 }	t_point;
 
 typedef struct s_map
@@ -71,6 +71,9 @@ typedef struct s_map
 	int		min_z;
 	int		x_offset;
 	int		y_offset;
+	float	x_angle;
+	float	y_angle;
+	float	z_angle;
 	int		zoom;
 	t_point	**map;
 }	t_map;

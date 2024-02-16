@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 21:34:02 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/16 14:27:46 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/16 18:41:20 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ void	ft_position(t_point *point, t_map *map)
 	int	x_pos;
 	int	y_pos;
 
-	point->x += map->x_offset * map->zoom;
-	point->y += map->y_offset * map->zoom;
+	point->x += map->x_offset;
+	point->y += map->y_offset;
 }
 
 void	ft_zoom(t_point *point, int zoom)
@@ -60,34 +60,8 @@ void	ft_zoom(t_point *point, int zoom)
 void	ft_rotate(t_point *point, t_map *map)
 {
 	ft_zoom(point, map->zoom);
-	ft_rotate_x(point, -0.615472907);
-	ft_rotate_y(point, -0.523599);
-	ft_rotate_z(point, M_PI / 6);
+	ft_rotate_x(point, map->x_angle);
+	ft_rotate_y(point, map->y_angle);
+	ft_rotate_z(point, map->z_angle);
 	ft_position(point, map);
 }
-
-// void	ft_isometric_projection(t_map *map)
-// {
-// 	int		i;
-// 	int		j;
-// 	int		x;
-// 	int		y;
-// 	int		z;
-// 	double	rad;
-
-// 	rad = 13 * M_PI / 6;
-
-// 	i = 0;
-// 	while (i < map->height)
-// 	{
-// 		j = 0;
-// 		while (j < map->width)
-// 		{
-// 			ft_adjust_zoom(&map->map[i][j], map, 30);
-// 			ft_rotate_vector(&map->map[i][j], -0.615472907, 'x', map);
-// 			ft_position_vector(&map->map[i][j], map, 30);
-// 			j++;
-// 		}
-// 		i++;
-// 	}
-// }

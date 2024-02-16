@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   keyboard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgoffaux <sgoffaux@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 13:23:00 by sgoffaux          #+#    #+#             */
-/*   Updated: 2021/08/27 14:45:11 by sgoffaux         ###   ########.fr       */
+/*   Updated: 2024/02/16 17:25:38 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,18 +35,18 @@ static void	ft_reset(t_fdf *env)
 
 static void	ft_toggle_projection(t_fdf *env)
 {
-	if (env->camera->iso)
-	{
-		env->camera->x_angle = -0.523599;
-		env->camera->y_angle = -0.261799;
-		env->camera->z_angle = 0;
-	}
-	else
-	{
+	// if (env->camera->iso)
+	// {
+		// env->camera->x_angle = -0.523599;
+		// env->camera->y_angle = -0.261799;
+		// env->camera->z_angle = 0;
+	// }
+	// else
+	// {
 		env->camera->x_angle = -0.615472907;
 		env->camera->y_angle = -0.523599;
 		env->camera->z_angle = 0.615472907;
-	}
+	// }
 	env->camera->iso = !env->camera->iso;
 }
 

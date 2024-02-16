@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 20:09:55 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/16 13:43:32 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/16 18:50:02 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	ft_index(char c, char *str)
 
 int	ft_atoi_hex(char *hex)
 {
-	int		nbr;
+	unsigned int	nbr;
 
 	nbr = 0;
 	while (*hex)
@@ -57,11 +57,11 @@ int	ft_color(int color_a, int color_b, float t, int rev)
 
 	if (rev)
 		ft_swap(&color_a, &color_b);
-	ts = ft_intrapolate((color_a >> 24) & 0xff, (color_b >> 24) & 0xff, t);
+	// ts = ft_intrapolate((color_a >> 24) & 0xff, (color_b >> 24) & 0xff, t);
 	r = ft_intrapolate((color_a >> 16) & 0xff, (color_b >> 16) & 0xff, t);
 	g = ft_intrapolate((color_a >> 8) & 0xff, (color_b >> 8) & 0xff, t);
 	b = ft_intrapolate(color_a & 0xff, color_b & 0xff, t);
-	return (ts << 24 | r << 16 | g << 8 | b);
+	return (r << 16 | g << 8 | b);
 }
 
 int	ft_gradiant(int color, float t)
@@ -71,9 +71,9 @@ int	ft_gradiant(int color, float t)
 	int	g;
 	int	b;
 
-	ts = t * 0xff;
-	r = color >> 16 & 0xff;
-	g = color >> 8 & 0xff;
-	b = color & 0xff;
-	return (ts << 24 | r << 16 | g << 8 | b);
+	// ts = t * 0xff;
+	r = t * (color >> 16 & 0xff);
+	g = t * (color >> 8 & 0xff);
+	b = t * (color & 0xff);
+	return (r << 16 | g << 8 | b);
 }

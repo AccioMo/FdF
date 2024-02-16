@@ -1,6 +1,7 @@
 {
     "files.associations": {
-        "__locale": "c",
-        "ios": "c"
-    }
+		"__locale": "c",
+		"ios": "c",
+		"fdf": "c"
+	}
 }

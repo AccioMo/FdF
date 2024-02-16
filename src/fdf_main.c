@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 17:11:16 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/16 14:26:19 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/16 18:39:03 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,10 @@ void	ft_set_params(t_map *map)
 	map->zoom = ft_min(WIN_WIDTH / map->width / 2, WIN_HEIGHT / map->height / 2);
 	map->x_offset = (WIN_WIDTH - map->width * map->zoom) / 2;
 	map->y_offset = (WIN_HEIGHT - map->height * map->zoom) / 2;
+	map->x_angle = -0.615472907;
+	map->y_angle = -0.523599;
+	map->z_angle = 0.615472907;
+	printf("%d, %d, %d, %f, %f, %f\n", map->zoom, map->x_offset, map->y_offset, map->x_angle, map->y_angle, map->z_angle);
 }
 
 int	ft_end(void *param)
@@ -57,33 +61,75 @@ int	ft_end(void *param)
 	return (1);
 }
 
+void	ft_mlx_move(int keycode, t_env *env)
+{
+	if (keycode == KEY_A)
+	{
+		env->map.x_offset -= 5;
+		ft_draw_map(env);
+	}
+	else if (keycode == KEY_D)
+	{
+		env->map.x_offset += 5;
+		ft_draw_map(env);
+	}
+	else if (keycode == KEY_S)
+	{
+		env->map.y_offset -= 5;
+		ft_draw_map(env);
+	}
+	else if (keycode == KEY_W)
+	{
+		env->map.y_offset += 5;
+		ft_draw_map(env);
+	}
+}
+
+void	ft_mlx_rotate(int keycode, t_env *env)
+{
+	if (keycode == KEY_LEFT)
+	{
+		env->map.x_angle -= 0.1;
+		ft_draw_map(env);
+	}
+	else if (keycode == KEY_RIGHT)
+	{
+		env->map.x_angle += 0.1;
+		ft_draw_map(env);
+	}
+	else if (keycode == KEY_DOWN)
+	{
+		env->map.y_angle -= 0.1;
+		ft_draw_map(env);
+	}
+	else if (keycode == KEY_UP)
+	{
+		env->map.y_angle -= 0.1;
+		ft_draw_map(env);
+	}
+}
+
 int	ft_key_event(int keycode, void *env)
 {
 	if (keycode == ESC)
 		ft_end(env);
-	else if (keycode == KEY_A || keycode == KEY_RIGHT)
-	{
-		((t_env *)env)->map.x_offset -= 5;
-		ft_draw_map(env);
-	}
-	else if (keycode == KEY_D || keycode == KEY_LEFT)
-	{
-		((t_env *)env)->map.x_offset += 5;
-		ft_draw_map(env);
-	}
-	else if (keycode == KEY_S || keycode == KEY_UP)
-	{
-		((t_env *)env)->map.y_offset -= 5;
-		ft_draw_map(env);
-	}
-	else if (keycode == KEY_W || keycode == KEY_DOWN)
-	{
-		((t_env *)env)->map.y_offset -= 5;
-		ft_draw_map(env);
-	}
+	else if ((keycode >= 0 && keycode <= 2) || keycode == 13)
+		ft_mlx_move(keycode, env);
+	else if (keycode >= 123 && keycode <= 126)
+		ft_mlx_rotate(keycode, env);
 	else if (keycode == SPACE)
 	{
-		ft_set_params(env);
+		ft_set_params(&((t_env *)env)->map);
+		ft_draw_map(env);
+	}
+	else if (keycode == KEY_PLUS || keycode == KEY_PLUS_)
+	{
+		((t_env *)env)->map.zoom += 5;
+		ft_draw_map(env);
+	}
+	else if (keycode == KEY_MINUS || keycode == KEY_MINUS_)
+	{
+		((t_env *)env)->map.zoom -= 5;
 		ft_draw_map(env);
 	}
 	return (0);
@@ -122,12 +168,15 @@ int	main(int argc, char *argv[])
 		return (ft_putstr_fd("usage: ./fdf [map_name].fdf\n", 2), EXIT_SUCCESS);
 	ft_get_map(*(argv + 1), &env.map);
 	ft_set_params(&env.map);
-	ft_print_map_info(&env.map);
+	// ft_print_map_info(&env.map);
 	env.mlx = mlx_init();
 	env.win = mlx_new_window(env.mlx, WIN_WIDTH, WIN_HEIGHT, "Fil de Fer");
 	env.img.img = mlx_new_image(env.mlx, WIN_WIDTH, WIN_HEIGHT);
 	env.img.addr = mlx_get_data_addr(env.img.img, &env.img.bpp, \
 		&env.img.n_bytes, &env.img.endian);
+	if (!env.img.addr)
+		return (-1);
+	// printf("%d\n", env.img.bpp);
 	mlx_key_hook(env.win, ft_key_event, (void *)&env);
 	mlx_mouse_hook(env.win, ft_mouse_event, (void *)&env);
 	mlx_hook(env.win, 17, 0, ft_end, (void *)&env);

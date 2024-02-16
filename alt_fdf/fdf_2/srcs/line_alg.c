@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 11:38:44 by sgoffaux          #+#    #+#             */
-/*   Updated: 2024/01/23 22:41:01 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/16 17:55:40 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,17 +65,13 @@ static void	ft_draw_line_loop(t_point s, t_point e, float gradient, t_fdf *env)
 	{
 		if (env->steep)
 		{
-			ft_put_pixel(env, ft_ipart(inter_y), x,
-				ft_get_color(x, s, e, ft_rfpart(inter_y)));
-			ft_put_pixel(env, ft_ipart(inter_y) + 1, x,
-				ft_get_color(x, s, e, ft_fpart(inter_y)));
+			ft_put_pixel(env, ft_ipart(inter_y), x, ft_get_color(x, s, e, ft_rfpart(inter_y)));
+			ft_put_pixel(env, ft_ipart(inter_y) + 1, x, ft_get_color(x, s, e, ft_fpart(inter_y)));
 		}
 		else
 		{
-			ft_put_pixel(env, x, ft_ipart(inter_y),
-				ft_get_color(x, s, e, ft_rfpart(inter_y)));
-			ft_put_pixel(env, x, ft_ipart(inter_y) + 1,
-				ft_get_color(x, s, e, ft_fpart(inter_y)));
+			ft_put_pixel(env, x, ft_ipart(inter_y), ft_get_color(x, s, e, ft_rfpart(inter_y)));
+			ft_put_pixel(env, x, ft_ipart(inter_y) + 1, ft_get_color(x, s, e, ft_fpart(inter_y)));
 		}
 		inter_y += gradient;
 		x++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgoffaux <sgoffaux@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/23 10:17:05 by sgoffaux          #+#    #+#             */
-/*   Updated: 2021/09/01 16:45:03 by sgoffaux         ###   ########.fr       */
+/*   Updated: 2024/02/16 17:55:52 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,13 @@ void	ft_draw(t_map *map, t_fdf *env)
 
 	ft_bzero(env->data_addr, WIDTH * HEIGHT * (env->bpp / 8));
 	y = 0;
-	if (env->camera->x_angle > 0)
-		y = map->height - 1;
+	// if (env->camera->x_angle > 0)
+	// 	y = map->height - 1;
 	while (y < map->height && y >= 0)
 	{
 		x = 0;
-		if (env->camera->y_angle > 0)
-			x = map->width - 1;
+		// if (env->camera->y_angle > 0)
+		// 	x = map->width - 1;
 		while (x < map->width && x >= 0)
 		{
 			if (x != map->width - 1)
