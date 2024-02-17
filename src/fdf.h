@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 17:11:50 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/17 16:14:21 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/17 18:23:21 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,20 @@
 # define KEY_PLUS 69
 # define KEY_MINUS 78
 
+# define KEY_1 83
+# define KEY_2 84
+# define KEY_3 85
+# define KEY_4 86
+# define KEY_5 87
+# define KEY_6 88
+# define KEY_7 89
+# define KEY_8 91
+# define KEY_9 92
+
+# define KEY_E 14
+# define KEY_P 35
+# define KEY_I 34
+
 typedef struct s_image
 {
 	void	*img;
@@ -95,6 +109,7 @@ typedef struct s_map
 	float	y_angle;
 	float	z_angle;
 	int		zoom;
+	int		projection;
 	t_point	**map;
 }	t_map;
 

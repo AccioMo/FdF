@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 10:45:49 by sgoffaux          #+#    #+#             */
-/*   Updated: 2024/01/23 21:28:33 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/17 16:32:01 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,9 @@ t_point	project(int x, int y, t_fdf *env)
 		point.color = get_default_color(env->map->array[y][x][0], env->map);
 	point.x = x * env->camera->zoom;
 	point.y = y * env->camera->zoom;
-	point.z *= env->camera->zoom / env->camera->z_height;
-	point.x -= (env->map->width * env->camera->zoom) / 2;
-	point.y -= (env->map->height * env->camera->zoom) / 2;
+	// point.z *= env->camera->zoom / env->camera->z_height;
+	// point.x -= (env->map->width * env->camera->zoom) / 2;
+	// point.y -= (env->map->height * env->camera->zoom) / 2;
 	ft_rotate_x(&point.y, &point.z, env->camera->x_angle);
 	ft_rotate_y(&point.x, &point.z, env->camera->y_angle);
 	ft_rotate_z(&point.x, &point.y, env->camera->z_angle);

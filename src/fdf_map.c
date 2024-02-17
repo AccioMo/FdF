@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 17:27:09 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/17 16:22:47 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/17 18:23:40 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,19 +160,25 @@ char	**ft_parse(int fd, t_map *map)
 	return (split_line);
 }
 
-void	ft_get_map(char *file, t_map *map)
+void	ft_get_map(char *filename, t_map *map)
 {
 	char	**column;
 	int		fd;
 	int		i;
 
 	i = 0;
-	map->height = ft_get_map_height(file);
+	if (ft_strncmp(ft_strchr(filename, '.'), ".fdf\0", 5) != 0)
+	{
+		ft_putstr_fd("\033[0;31mError: Invalid map extension.\n\033[0m", 2);
+		exit(1);
+	}
+	map->width = 0;
+	map->height = ft_get_map_height(filename);
 	map->map = (t_point **)malloc((map->height + 1) * sizeof(t_point *));
 	map->map[map->height] = NULL;
-	fd = open(file, O_RDONLY);
+	fd = open(filename, O_RDONLY);
 	if (fd < 0)
-		return (perror(file));
+		return (perror(filename));
 	while (i < map->height)
 	{
 		column = ft_parse(fd, map);

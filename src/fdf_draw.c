@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 17:19:20 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/17 16:14:37 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/17 18:17:38 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,8 @@ void	ft_print_key(t_env *env)
 	mlx_string_put(env->mlx, env->win, 1600, y += 30, 0xffcc8f, "Switch Projection:");
 	mlx_string_put(env->mlx, env->win, 1600, y += 25, 0xffcc8f, "Spacebar to reset");
 	mlx_string_put(env->mlx, env->win, 1600, y += 25, 0xffcc8f, "	I for Isometric");
-	mlx_string_put(env->mlx, env->win, 1600, y += 25, 0xffcc8f, "	P for Parallel");
+	mlx_string_put(env->mlx, env->win, 1600, y += 25, 0xffcc8f, "	P for Plan");
+	mlx_string_put(env->mlx, env->win, 1600, y += 25, 0xffcc8f, "	E for Elevation");
 }
 
 void	ft_draw_map(t_env *env)
