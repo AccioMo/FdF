@@ -1,9 +1,0 @@
-{
-    "files.associations": {
-		"__locale": "c",
-		"ios": "c",
-		"fdf": "c",
-		"iosfwd": "c",
-		"iterator": "c"
-	}
-}

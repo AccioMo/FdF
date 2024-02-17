@@ -6,31 +6,31 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 17:11:16 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/17 20:57:19 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/17 21:45:15 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	ft_print_map_info(t_map *map)
-{
-	int	i;
-	int	j;
+// void	ft_print_map_info(t_map *map)
+// {
+// 	int	i;
+// 	int	j;
 
-	i = 0;
-	ft_printf("w: %d, h: %d\n", map->width, map->height);
-	while (i < map->height)
-	{
-		j = 0;
-		while (j < map->width)
-		{
-			ft_printf("%p ", map->map[i][j].color);
-			j++;
-		}
-		ft_printf("\n");
-		i++;
-	}
-}
+// 	i = 0;
+// 	ft_printf("w: %d, h: %d\n", map->width, map->height);
+// 	while (i < map->height)
+// 	{
+// 		j = 0;
+// 		while (j < map->width)
+// 		{
+// 			ft_printf("%p ", map->map[i][j].color);
+// 			j++;
+// 		}
+// 		ft_printf("\n");
+// 		i++;
+// 	}
+// }
 
 int	ft_min(int a, int b)
 {
@@ -70,14 +70,22 @@ void	ft_set_params(t_map *map)
 	ft_projection(map);
 }
 
+void	f()
+{
+	system("leaks fdf");
+}
+
 int	ft_end(void *param)
 {
 	t_env	*env;
 
+	atexit(f);
 	env = (t_env *)param;
+	mlx_clear_window(env->mlx, env->win);
 	mlx_destroy_image(env->mlx, env->img.img);
 	mlx_destroy_window(env->mlx, env->win);
 	ft_free((void **)env->map.map);
+	free(env->mlx);
 	exit(0);
 	return (1);
 }

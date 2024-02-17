@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 17:27:09 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/17 18:23:40 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/17 21:48:57 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,13 +172,13 @@ void	ft_get_map(char *filename, t_map *map)
 		ft_putstr_fd("\033[0;31mError: Invalid map extension.\n\033[0m", 2);
 		exit(1);
 	}
+	fd = open(filename, O_RDONLY);
+	if (fd < 0)
+		exit(1);
 	map->width = 0;
 	map->height = ft_get_map_height(filename);
 	map->map = (t_point **)malloc((map->height + 1) * sizeof(t_point *));
 	map->map[map->height] = NULL;
-	fd = open(filename, O_RDONLY);
-	if (fd < 0)
-		return (perror(filename));
 	while (i < map->height)
 	{
 		column = ft_parse(fd, map);
