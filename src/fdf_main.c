@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 17:11:16 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/16 23:16:02 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/17 16:30:07 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,15 @@ int	ft_key_event(int keycode, void *env)
 	return (0);
 }
 
+double	ft_reset_angles(double angle)
+{
+	if (angle >= M_PI)
+		return (-2 * M_PI - angle);
+	else if (angle <= -M_PI)
+		return (2 * M_PI + angle);
+	return (angle);
+}
+
 int	ft_mouse_move(int x, int y, void *param)
 {
 	t_env	*env;
@@ -151,11 +160,12 @@ int	ft_mouse_move(int x, int y, void *param)
 	}
 	else if (env->mouse.click == MOUSE_RIGHT)
 	{
-		env->map.x_angle += (x - env->mouse.x) * 0.001;
-		env->map.y_angle += (y - env->mouse.y) * 0.001;
-		env->mouse.x = x - env->map.x_offset;
-		env->mouse.y = y - env->map.y_offset;
-		// env->map.z_angle += y;
+		env->map.x_angle += (x - env->mouse.x) * 0.002;
+		env->map.y_angle += (y - env->mouse.y) * 0.002;
+		ft_reset_angles(env->map.x_angle);
+		ft_reset_angles(env->map.y_angle);
+		env->mouse.x = x;
+		env->mouse.y = y;
 		ft_draw_map(env);
 	}
 	return (0);

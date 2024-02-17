@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 17:11:50 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/16 22:16:51 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/17 16:14:21 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdio.h>
 # include <limits.h>
 # include <mlx.h>
+# include <time.h>
 # include <math.h>
 # include "../libft/libft.h"
 # include "../libftprintf/ft_printf.h"
@@ -69,8 +70,18 @@ typedef struct s_point
 	float	x;
 	float	y;
 	float	z;
-	unsigned int	color;
+	int		color;
 }	t_point;
+
+typedef struct s_vector
+{
+	t_point	a;
+	t_point	b;
+	float	dx;
+	int		rev;
+	int		steep;
+	float	gradiant;
+}	t_vector;
 
 typedef struct s_map
 {
@@ -108,8 +119,8 @@ int		ft_atoi_hex(char *hex);
 void	ft_rotate(t_point *point, t_map *map);
 int		ft_abs(int nbr);
 void	ft_free(void **ptr);
-int		ft_color(int color_a, int color_b, float t, int rev);
-int		ft_gradiant(int color, float t);
+int		ft_color(int ca, int cb, t_vector *v, float t);
+int		gradiant(int color, float t);
 void	ft_default_color(t_map *map);
 
 #endif

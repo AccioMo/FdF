@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 17:27:09 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/16 23:32:29 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/17 16:22:47 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,11 @@ void	ft_default_color(t_map *map)
 			if (map->map[i][j].z >= 0 && !map->map[i][j].color)
 			{
 				p = map->map[i][j].z / map->max_z;
-				if (p > 0.98)
+				if (p > 0.90)
+					map->map[i][j].color = 0xfb7e00;
+				else if (p > 0.60)
 					map->map[i][j].color = 0xffbf00;
-				else if (p > 0.40)
+				else if (p > 0.20)
 					map->map[i][j].color = 0x4895ef;
 				else
 					map->map[i][j].color = 0xb5179e;
@@ -64,11 +66,11 @@ void	ft_default_color(t_map *map)
 			{
 				p = map->map[i][j].z / map->min_z;
 				if (p > 0.80)
-					map->map[i][j].color = 0x672c8f;
-				else if (p > 0.20)
-					map->map[i][j].color = 0x400e78;
-				else
 					map->map[i][j].color = 0x010057;
+				else if (p > 0.40)
+					map->map[i][j].color = 0x3e0c70;
+				else
+					map->map[i][j].color = 0x561c91;
 			}
 			j++;
 		}
@@ -115,10 +117,10 @@ static t_point	*ft_get_row(char **input, int height, t_map *map)
 		pos[i].y = height;
 		if (ft_parse_value(&pos[i], input[i]) < 0)
 			return (NULL);
-		if (pos->z > map->max_z)
-			map->max_z = pos->z;
-		if (pos->z < map->min_z)
-			map->min_z = pos->z;
+		if (pos[i].z > map->max_z)
+			map->max_z = pos[i].z;
+		if (pos[i].z < map->min_z)
+			map->min_z = pos[i].z;
 		i++;
 	}
 	return (pos);
