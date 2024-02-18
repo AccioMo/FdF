@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 17:27:09 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/18 14:52:48 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/18 18:04:19 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,15 @@
 
 static void	ft_get_map_data(t_map *map)
 {
-	char	buffer[BUFFER_SIZE];
+	char	buffer[BUFFER_SIZE + 1];
 	int		fd;
 	int		rd;
 	int		x;
 
-	x = 1;
+	x = 0;
 	map->width = 0;
 	map->height = 0;
+	buffer[BUFFER_SIZE] = '\0';
 	fd = open(map->name, O_RDONLY);
 	if (fd < 0)
 		ft_exit(1, map->name);
@@ -46,8 +47,6 @@ static t_point	*ft_get_row(char **input, int height, t_map *map)
 	pos = (t_point *)malloc((map->width + 1) * sizeof(t_point));
 	if (!pos)
 		return (NULL);
-	
-	printf("(%d) \n", map->width);
 	while (i < map->width)
 	{
 		pos[i].x = i;
@@ -59,7 +58,6 @@ static t_point	*ft_get_row(char **input, int height, t_map *map)
 		if (pos[i].z < map->min_z)
 			map->min_z = pos[i].z;
 		i++;
-		fflush(stdout);
 	}
 	return (pos);
 }
