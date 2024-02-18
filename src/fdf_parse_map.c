@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 11:48:12 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/18 12:02:57 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/18 14:36:59 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	ft_validate_map(char *buffer, int rd, t_map *map, int *x)
 				map->height++;
 			else
 				ft_map_error(map, " :inconsistent map width.\n", *x);
-			*x = 0;
+			*x = 1;
 		}
 		else if (buffer[i] == ' ')
 			*x += (buffer[i + 1] != ' ') && (buffer[i + 1] != '\n');

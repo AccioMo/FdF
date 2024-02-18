@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 21:34:02 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/18 12:48:40 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/18 13:54:05 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ void	ft_zoom(t_point *point, t_map *map)
 void	ft_rotate(t_point *point, t_map *map)
 {
 	ft_zoom(point, map);
+	point->x -= (map->width * map->zoom) / 4;
+	point->y -= (map->height * map->zoom) / 4;
 	ft_rotate_x(point, map->x_angle);
 	ft_rotate_y(point, map->y_angle);
 	ft_rotate_z(point, map->z_angle);

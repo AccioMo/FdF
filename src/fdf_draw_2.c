@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf_draw_utils.c                                   :+:      :+:    :+:   */
+/*   fdf_draw_2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 22:28:45 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/18 09:58:38 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/18 15:28:34 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,39 +25,56 @@ float	rdecimal(float nb)
 	return (1 - decimal(nb));
 }
 
-void	ft_print_menu(t_env *env)
+static void	ft_print_menu(t_env *env, int menu_offset)
 {
 	int	y;
 
 	y = 0;
-	mlx_string_put(env->mlx, env->win, 1600, y += 20, 0xffcc8f, \
+	mlx_string_put(env->mlx, env->win, menu_offset + 25, y += 40, 0xBBBEC0, \
 		"How to use:");
-	mlx_string_put(env->mlx, env->win, 1600, y += 35, 0xffcc8f, \
-		"Scroll or press +/- to zoom");
-	mlx_string_put(env->mlx, env->win, 1600, y += 30, 0xffcc8f, \
-		"Use W, A, S, and D to move");
-	mlx_string_put(env->mlx, env->win, 1600, y += 30, 0xffcc8f, \
+	mlx_string_put(env->mlx, env->win, menu_offset + 25, y += 55, 0xBBBEC0, \
+		"Scroll/+/- to zoom");
+	mlx_string_put(env->mlx, env->win, menu_offset + 25, y += 40, 0xBBBEC0, \
+		"W, A, S, and D to move");
+	mlx_string_put(env->mlx, env->win, menu_offset + 25, y += 40, 0xBBBEC0, \
+		"Left +/- to change height");
+	mlx_string_put(env->mlx, env->win, menu_offset + 25, y += 40, 0xBBBEC0, \
 		"Switch Projection:");
-	mlx_string_put(env->mlx, env->win, 1600, y += 25, 0xffcc8f, \
+	mlx_string_put(env->mlx, env->win, menu_offset + 35, y += 40, 0xBBBEC0, \
+		"I for Isometric");
+	mlx_string_put(env->mlx, env->win, menu_offset + 35, y += 40, 0xBBBEC0, \
+		"P for Plan");
+	mlx_string_put(env->mlx, env->win, menu_offset + 35, y += 40, 0xBBBEC0, \
+		"E for Elevation");
+	mlx_string_put(env->mlx, env->win, menu_offset + 25, y += 40, 0xBBBEC0, \
 		"Spacebar to reset");
-	mlx_string_put(env->mlx, env->win, 1600, y += 25, 0xffcc8f, \
-		"	I for Isometric");
-	mlx_string_put(env->mlx, env->win, 1600, y += 25, 0xffcc8f, \
-		"	P for Plan");
-	mlx_string_put(env->mlx, env->win, 1600, y += 25, 0xffcc8f, \
-		"	E for Elevation");
 }
 
-static void	ft_clear_map(t_image *img)
+static void	ft_color_window(t_env *env, int menu_offset, int color)
 {
-	int	len;
-	int	i;
+	int	y;
+	int	x;
 
-	i = 0;
-	len = W_WIDTH * W_HEIGHT * (img->bpp / 8);
-	while (i < len)
-		img->addr[i++] = '\0';
+	y = 0;
+	while (y < W_HEIGHT)
+	{
+		x = menu_offset;
+		while (x < W_WIDTH)
+			ft_put_pixel(x++, y, color, &env->img);
+		y++;
+	}
 }
+
+// static void	ft_clear_map(t_image *img)
+// {
+// 	int	len;
+// 	int	i;
+
+// 	i = 0;
+// 	// len = W_WIDTH * W_HEIGHT * (img->bpp / 8);
+// 	// while (i < len)
+// 	// 	img->addr[i++] = '\0';
+// }
 
 void	ft_draw_map(t_env *env)
 {
@@ -65,24 +82,24 @@ void	ft_draw_map(t_env *env)
 	int		w;
 	int		h;
 
-	h = 1;
+	h = 0;
 	m = &env->map;
-	ft_clear_map(&env->img);
+	ft_color_window(env, 0, 0x0c121d);
 	while (h < m->height)
 	{
-		w = 1;
+		w = 0;
 		while (w < m->width)
 		{
-			if (h == 1 && w < m->width)
-				ft_aa_draw(&m->map[0][w - 1], &m->map[0][w], &env->img, m);
-			if (w == 1 && h < m->height)
-				ft_aa_draw(&m->map[h - 1][0], &m->map[h][0], &env->img, m);
-			ft_aa_draw(&m->map[h][w - 1], &m->map[h][w], &env->img, m);
-			ft_aa_draw(&m->map[h - 1][w], &m->map[h][w], &env->img, m);
-			w++;
+			if (w < m->width - 1)
+				ft_aa_draw(&m->map[h][w], &m->map[h][w + 1], &env->img, m);
+			if (h < m->height - 1)
+				ft_aa_draw(&m->map[h][w], &m->map[h + 1][w], &env->img, m);
+			w += 1;
 		}
-		h++;
+		h += 1;
 	}
+	ft_color_window(env, W_WIDTH - 325, 0x251230);
+	ft_color_window(env, W_WIDTH - 320, 0x0e0712);
 	mlx_put_image_to_window(env->mlx, env->win, env->img.img, 0, 0);
-	ft_print_menu(env);
+	ft_print_menu(env, W_WIDTH - 320);
 }

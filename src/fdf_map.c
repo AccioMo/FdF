@@ -6,22 +6,25 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 17:27:09 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/18 12:40:47 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/18 14:52:48 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static int	ft_get_map_height(t_map *map)
+static void	ft_get_map_data(t_map *map)
 {
 	char	buffer[BUFFER_SIZE];
 	int		fd;
 	int		rd;
 	int		x;
 
+	x = 1;
 	map->width = 0;
 	map->height = 0;
 	fd = open(map->name, O_RDONLY);
+	if (fd < 0)
+		ft_exit(1, map->name);
 	rd = read(fd, buffer, BUFFER_SIZE);
 	while (rd > 0)
 	{
@@ -29,7 +32,6 @@ static int	ft_get_map_height(t_map *map)
 		rd = read(fd, buffer, BUFFER_SIZE);
 	}
 	close(fd);
-	return (map->height);
 }
 
 static t_point	*ft_get_row(char **input, int height, t_map *map)
@@ -41,9 +43,11 @@ static t_point	*ft_get_row(char **input, int height, t_map *map)
 	i = 0;
 	if (!input)
 		return (NULL);
-	pos = (t_point *)malloc(map->width * sizeof(t_point));
+	pos = (t_point *)malloc((map->width + 1) * sizeof(t_point));
 	if (!pos)
 		return (NULL);
+	
+	printf("(%d) \n", map->width);
 	while (i < map->width)
 	{
 		pos[i].x = i;
@@ -55,6 +59,7 @@ static t_point	*ft_get_row(char **input, int height, t_map *map)
 		if (pos[i].z < map->min_z)
 			map->min_z = pos[i].z;
 		i++;
+		fflush(stdout);
 	}
 	return (pos);
 }
@@ -76,8 +81,7 @@ char	**ft_parse(int fd, t_map *map)
 
 void	ft_init_map(t_map **map, int *fd)
 {
-	(*map)->width = 0;
-	(*map)->height = ft_get_map_height(*map);
+	ft_get_map_data(*map);
 	(*map)->map = (t_point **)malloc(((*map)->height + 1) * sizeof(t_point *));
 	if (!(*map)->map)
 		ft_exit(3, "error allocating map.\n");

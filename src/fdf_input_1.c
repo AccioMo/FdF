@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 23:04:47 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/18 12:28:25 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/18 14:33:17 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static void	ft_project_keys(int keycode, t_env *env)
 	{
 		env->map.projection = 3;
 		env->map.x_offset = (W_WIDTH - (env->map.width * env->map.zoom)) / 2;
-		env->map.y_offset = W_HEIGHT / 2 + 160;
+		env->map.y_offset = W_HEIGHT / 2;
 		ft_projection(&env->map);
 		ft_draw_map(env);
 	}
@@ -95,11 +95,11 @@ static void	ft_change_z_keys(int keycode, t_env *env)
 	}
 }
 
-int	ft_key_event(int keycode, void *param)
+int	ft_key_event(int keycode, void *env)
 {
-	t_env	*env;
+	t_map	*map;
 
-	env = (t_env *)param;
+	map = &((t_env *)env)->map;
 	if (keycode == ESC)
 		ft_end(env);
 	else if (!ft_mlx_move(keycode, env))
@@ -114,8 +114,8 @@ int	ft_key_event(int keycode, void *param)
 		ft_change_z_keys(keycode, env);
 	else if (keycode == SPACE)
 	{
-		env->map.x_offset = (W_WIDTH - (env->map.width * env->map.zoom)) / 2;
-		env->map.y_offset = (W_HEIGHT - (env->map.height * env->map.zoom)) / 2;
+		map->x_offset = (W_WIDTH - (map->width * map->zoom) / 2) / 2;
+		map->y_offset = (W_HEIGHT - (map->height * map->zoom) / 2) / 2;
 		ft_draw_map(env);
 	}
 	return (0);

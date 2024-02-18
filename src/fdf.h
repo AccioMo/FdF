@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 17:11:50 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/18 12:41:10 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/18 14:22:03 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,6 @@ void	ft_projection(t_map *map);
 float	ft_angle_overflow(float *angle);
 void	ft_set_params(t_map *map);
 
-void	ft_print_menu(t_env *env);
 float	rdecimal(float nb);
 float	decimal(float nb);
 
@@ -155,9 +154,9 @@ int		ft_index(char c, char *str);
 int		ft_get_len(char **ptr);
 
 void	ft_draw_map(t_env *env);
+void	ft_put_pixel(int x, int y, int color, t_image *img);
 void	ft_aa_draw(t_point *a, t_point *b, t_image *img, t_map *map);
 void	ft_rotate(t_point *point, t_map *map);
-void	ft_print_menu(t_env *env);
 
 int		ft_color(int ca, int cb, t_vector *v, float t);
 int		gradiant(int color, float t);

@@ -6,13 +6,13 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 17:19:20 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/18 12:16:18 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/18 14:54:59 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static void	ft_put_pixel(int x, int y, int color, t_image *img)
+void	ft_put_pixel(int x, int y, int color, t_image *img)
 {
 	char	*dst;
 
