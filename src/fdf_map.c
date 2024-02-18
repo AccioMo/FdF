@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 17:27:09 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/18 18:04:19 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/19 00:05:55 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	ft_get_map_data(t_map *map)
 {
-	char	buffer[BUFFER_SIZE + 1];
+	char	*buffer;
 	int		fd;
 	int		rd;
 	int		x;
@@ -22,16 +22,12 @@ static void	ft_get_map_data(t_map *map)
 	x = 0;
 	map->width = 0;
 	map->height = 0;
-	buffer[BUFFER_SIZE] = '\0';
 	fd = open(map->name, O_RDONLY);
 	if (fd < 0)
 		ft_exit(1, map->name);
-	rd = read(fd, buffer, BUFFER_SIZE);
-	while (rd > 0)
-	{
-		ft_validate_map(buffer, rd, map, &x);
-		rd = read(fd, buffer, BUFFER_SIZE);
-	}
+	buffer = ft_fopen(fd);
+	ft_validate_map(buffer, map);
+	free(buffer);
 	close(fd);
 }
 

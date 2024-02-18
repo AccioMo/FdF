@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 17:11:50 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/18 14:22:03 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/18 23:28:53 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ int		ft_end(void *param);
 
 void	ft_get_map(t_map *map);
 int		ft_parse_value(t_point *pos, char *value);
-void	ft_validate_map(char *buffer, int rd, t_map *map, int *x);
+void	ft_validate_map(char *buffer, t_map *map);
 void	ft_default_color(t_map *map);
 int		ft_atoi_hex(char *hex);
 int		ft_index(char c, char *str);
@@ -162,6 +162,7 @@ int		ft_color(int ca, int cb, t_vector *v, float t);
 int		gradiant(int color, float t);
 void	ft_default_color(t_map *map);
 
+char	*ft_fopen(int fd);
 void	ft_free(void **ptr);
 int		ft_exit(int code, char *str);
 

@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 17:19:20 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/18 14:54:59 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/19 00:09:25 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,10 +95,7 @@ void	ft_aa_draw(t_point *a, t_point *b, t_image *img, t_map *map)
 	vct.b = *b;
 	ft_rotate(&vct.a, map);
 	ft_rotate(&vct.b, map);
-	if (((vct.a.x < 0 || vct.a.x > W_WIDTH) || \
-			(vct.a.y < 0 || vct.a.y > W_HEIGHT)) \
-			&& ((vct.b.x < 0 || vct.b.x > W_WIDTH) \
-			|| (vct.b.y < 0 || vct.b.y > W_HEIGHT)))
+	if (((vct.a.x < 0 || vct.a.x > W_WIDTH) && (vct.b.x < 0 || vct.b.x > W_WIDTH)) || ((vct.a.y < 0 || vct.a.y > W_HEIGHT) && (vct.b.y < 0 || vct.b.y > W_HEIGHT)))
 		return ;
 	vct.steep = abs((int)(vct.b.y - vct.a.y)) > abs((int)(vct.b.x - vct.a.x));
 	vct.gradiant = ft_get_step(&vct);

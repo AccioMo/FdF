@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 20:09:55 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/18 16:51:28 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/18 23:55:21 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,13 @@ int	ft_atoi_hex(char *hex)
 
 	nbr = 0;
 	hex += 2;
-	while (*hex && ft_isalnum(*hex))
+	while (*hex && *hex != '\n')
 	{
-		digit = ft_index(*hex++, UPPER_HEX);
+		digit = ft_index(*hex, UPPER_HEX);
 		if (digit == -1)
-			digit = ft_index(*hex++, LOWER_HEX);
+			digit = ft_index(*hex, LOWER_HEX);
 		nbr = (nbr * 16) + digit;
+		hex++;
 	}
 	return (nbr);
 }
