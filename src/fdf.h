@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 17:11:50 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/17 18:23:21 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/18 09:58:44 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 # include "../libftprintf/ft_printf.h"
 # include "../get_next_line/get_next_line.h"
 
-# define WIN_WIDTH 1920
-# define WIN_HEIGHT 1080
+# define W_WIDTH 1920
+# define W_HEIGHT 1080
 
 # define MOUSE_LEFT 1
 # define MOUSE_RIGHT 2
@@ -128,14 +128,33 @@ typedef struct s_env
 	t_map	map;
 }	t_env;
 
+int		ft_key_event(int keycode, void *param);
+void	ft_projection(t_map *map);
+float	ft_angle_overflow(float *angle);
+void	ft_set_params(t_map *map);
+
+void	ft_print_menu(t_env *env);
+float	rdecimal(float nb);
+float	decimal(float nb);
+
+int		ft_mouse_move(int x, int y, void *param);
+int		ft_mouse_down(int mousecode, int x, int y, void *env);
+int		ft_mouse_up(int mousecode, int x, int y, void *param);
+
+int		ft_end(void *param);
+
 void	ft_get_map(char *file, t_map *map);
-void	ft_draw_map(t_env *env);
 int		ft_atoi_hex(char *hex);
+
+void	ft_draw_map(t_env *env);
+void	ft_aa_draw(t_point *a, t_point *b, t_image *img, t_map *map);
 void	ft_rotate(t_point *point, t_map *map);
-int		ft_abs(int nbr);
-void	ft_free(void **ptr);
+void	ft_print_menu(t_env *env);
+
 int		ft_color(int ca, int cb, t_vector *v, float t);
 int		gradiant(int color, float t);
 void	ft_default_color(t_map *map);
+
+void	ft_free(void **ptr);
 
 #endif
