@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 17:11:50 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/18 09:58:44 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/18 12:29:00 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,12 +99,14 @@ typedef struct s_vector
 
 typedef struct s_map
 {
+	char	*name;
 	int		width;
 	int		height;
 	int		max_z;
 	int		min_z;
 	int		x_offset;
 	int		y_offset;
+	float	z_factor;
 	float	x_angle;
 	float	y_angle;
 	float	z_angle;
@@ -141,10 +143,15 @@ int		ft_mouse_move(int x, int y, void *param);
 int		ft_mouse_down(int mousecode, int x, int y, void *env);
 int		ft_mouse_up(int mousecode, int x, int y, void *param);
 
+int		ft_mlx_move(int keycode, t_env *env);
 int		ft_end(void *param);
 
-void	ft_get_map(char *file, t_map *map);
+void	ft_get_map(t_map *map);
+void	ft_validate_map(char *buffer, int rd, t_map *map, int *x);
+void	ft_default_color(t_map *map);
 int		ft_atoi_hex(char *hex);
+int		ft_index(char c, char *str);
+int		ft_get_len(char **ptr);
 
 void	ft_draw_map(t_env *env);
 void	ft_aa_draw(t_point *a, t_point *b, t_image *img, t_map *map);
@@ -156,5 +163,6 @@ int		gradiant(int color, float t);
 void	ft_default_color(t_map *map);
 
 void	ft_free(void **ptr);
+int		ft_exit(int code, char *str);
 
 #endif

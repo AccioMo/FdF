@@ -6,76 +6,30 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 17:27:09 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/18 10:13:17 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/18 12:02:01 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static int	ft_get_map_height(char *file)
+static int	ft_get_map_height(t_map *map)
 {
-	char	buffer[1];
-	int		height;
+	char	buffer[BUFFER_SIZE];
 	int		fd;
+	int		rd;
+	int		x;
 
-	height = 0;
-	fd = open(file, O_RDONLY);
-	while (read(fd, buffer, 1) > 0)
-		height += ft_strchr(buffer, '\n') != NULL;
-	close(fd);
-	return (height);
-}
-
-void	ft_free(void **ptr)
-{
-	void	**hold;
-
-	hold = ptr;
-	if (!ptr)
-		return ;
-	while (*ptr)
-		free(*ptr++);
-	free(hold);
-}
-
-void	ft_default_color(t_map *map)
-{
-	double	p;
-	int		i;
-	int		j;
-
-	i = 0;
-	while (i < map->height)
+	map->width = 0;
+	map->height = 0;
+	fd = open(map->name, O_RDONLY);
+	rd = read(fd, buffer, BUFFER_SIZE);
+	while (rd > 0)
 	{
-		j = 0;
-		while (j < map->width)
-		{
-			if (map->map[i][j].z >= 0 && !map->map[i][j].color)
-			{
-				p = map->map[i][j].z / map->max_z;
-				if (p > 0.90)
-					map->map[i][j].color = 0xfb7e00;
-				else if (p > 0.60)
-					map->map[i][j].color = 0xffbf00;
-				else if (p > 0.20)
-					map->map[i][j].color = 0x4895ef;
-				else
-					map->map[i][j].color = 0xb5179e;
-			}
-			else if (!map->map[i][j].color)
-			{
-				p = map->map[i][j].z / map->min_z;
-				if (p > 0.80)
-					map->map[i][j].color = 0x010057;
-				else if (p > 0.40)
-					map->map[i][j].color = 0x3e0c70;
-				else
-					map->map[i][j].color = 0x561c91;
-			}
-			j++;
-		}
-		i++;
+		ft_validate_map(buffer, rd, map, &x);
+		rd = read(fd, buffer, BUFFER_SIZE);
 	}
+	close(fd);
+	return (map->height);
 }
 
 int	ft_parse_value(t_point *pos, char *value)
@@ -126,18 +80,6 @@ static t_point	*ft_get_row(char **input, int height, t_map *map)
 	return (pos);
 }
 
-int	ft_get_len(char **ptr)
-{
-	int	i;
-
-	i = 0;
-	if (!ptr)
-		return (0);
-	while (*(ptr + i))
-		i++;
-	return (i);
-}
-
 char	**ft_parse(int fd, t_map *map)
 {
 	char	*line;
@@ -150,35 +92,28 @@ char	**ft_parse(int fd, t_map *map)
 	free(line);
 	if (!split_line)
 		return (NULL);
-	if (!map->width)
-		map->width = ft_get_len(split_line);
-	if (map->width != ft_get_len(split_line))
-	{
-		ft_putstr_fd("\033[0;31mError: Inconsistent map width.\n\033[0m", 2);
-		return (NULL);
-	}
 	return (split_line);
 }
 
-void	ft_get_map(char *filename, t_map *map)
+void	ft_get_map(t_map *map)
 {
 	char	**column;
 	int		fd;
 	int		i;
 
 	i = 0;
-	if (ft_strncmp(ft_strchr(filename, '.'), ".fdf\0", 5) != 0)
-	{
-		ft_putstr_fd("\033[0;31mError: Invalid map extension.\n\033[0m", 2);
-		exit(1);
-	}
-	fd = open(filename, O_RDONLY);
-	if (fd < 0)
-		exit(1);
 	map->width = 0;
-	map->height = ft_get_map_height(filename);
+	map->height = ft_get_map_height(map);
 	map->map = (t_point **)malloc((map->height + 1) * sizeof(t_point *));
+	if (!map->map)
+		ft_exit(3, "error allocating map.\n");
 	map->map[map->height] = NULL;
+	fd = open(map->name, O_RDONLY);
+	if (fd < 0)
+	{
+		ft_free((void **)map->map);
+		ft_exit(1, map->name);
+	}
 	while (i < map->height)
 	{
 		column = ft_parse(fd, map);

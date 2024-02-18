@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 23:04:47 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/18 10:10:34 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/18 12:28:25 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,43 +41,13 @@ static void	ft_mlx_rotate(int keycode, t_env *env)
 	ft_draw_map(env);
 }
 
-static int	ft_mlx_move(int keycode, t_env *env)
-{
-	if (keycode == KEY_A)
-	{
-		env->map.x_offset -= 5;
-		ft_draw_map(env);
-		return (0);
-	}
-	else if (keycode == KEY_D)
-	{
-		env->map.x_offset += 5;
-		ft_draw_map(env);
-		return (0);
-	}
-	else if (keycode == KEY_W)
-	{
-		env->map.y_offset -= 5;
-		ft_draw_map(env);
-		return (0);
-	}
-	else if (keycode == KEY_S)
-	{
-		env->map.y_offset += 5;
-		ft_draw_map(env);
-		return (0);
-	}
-	return (1);
-}
-
-static int	ft_project_keys(int keycode, t_env *env)
+static void	ft_project_keys(int keycode, t_env *env)
 {
 	if (keycode == KEY_I)
 	{
 		env->map.projection = 1;
 		ft_set_params(&env->map);
 		ft_draw_map(env);
-		return (1);
 	}
 	else if (keycode == KEY_P)
 	{
@@ -86,7 +56,6 @@ static int	ft_project_keys(int keycode, t_env *env)
 		env->map.y_offset = W_HEIGHT / 3;
 		ft_projection(&env->map);
 		ft_draw_map(env);
-		return (1);
 	}
 	else if (keycode == KEY_E)
 	{
@@ -95,26 +64,35 @@ static int	ft_project_keys(int keycode, t_env *env)
 		env->map.y_offset = W_HEIGHT / 2 + 160;
 		ft_projection(&env->map);
 		ft_draw_map(env);
-		return (1);
 	}
-	return (0);
 }
 
-static int	ft_zoom_keys(int keycode, t_env *env)
+static void	ft_zoom_keys(int keycode, t_env *env)
 {
-	if (keycode == KEY_PLUS || keycode == KEY_PLUS_)
+	if (keycode == KEY_PLUS)
 	{
 		env->map.zoom += 5;
 		ft_draw_map(env);
-		return (0);
 	}
-	else if (keycode == KEY_MINUS || keycode == KEY_MINUS_)
+	else if (keycode == KEY_MINUS)
 	{
 		env->map.zoom -= 5;
 		ft_draw_map(env);
-		return (0);
 	}
-	return (1);
+}
+
+static void	ft_change_z_keys(int keycode, t_env *env)
+{
+	if (keycode == KEY_PLUS_)
+	{
+		env->map.z_factor += 0.05;
+		ft_draw_map(env);
+	}
+	else if (keycode == KEY_MINUS_)
+	{
+		env->map.z_factor -= 0.05;
+		ft_draw_map(env);
+	}
 }
 
 int	ft_key_event(int keycode, void *param)
@@ -128,10 +106,12 @@ int	ft_key_event(int keycode, void *param)
 		return (0);
 	else if (keycode >= 83 && keycode <= 92)
 		ft_mlx_rotate(keycode, env);
-	else if (!ft_project_keys(keycode, env))
-		return (0);
-	else if (!ft_zoom_keys(keycode, env))
-		return (0);
+	else if (keycode == KEY_I || keycode == KEY_P || keycode == KEY_E)
+		ft_project_keys(keycode, env);
+	else if (keycode == KEY_PLUS || keycode == KEY_MINUS)
+		ft_zoom_keys(keycode, env);
+	else if (keycode == KEY_PLUS_ || keycode == KEY_MINUS_)
+		ft_change_z_keys(keycode, env);
 	else if (keycode == SPACE)
 	{
 		env->map.x_offset = (W_WIDTH - (env->map.width * env->map.zoom)) / 2;

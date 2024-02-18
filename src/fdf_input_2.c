@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf_input2.c                                       :+:      :+:    :+:   */
+/*   fdf_input_2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 23:06:25 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/18 09:49:33 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/18 12:30:58 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,38 @@ void	ft_set_params(t_map *map)
 	map->zoom = min(W_WIDTH / map->width / 2, W_HEIGHT / map->height / 2);
 	map->x_offset = W_WIDTH / 2;
 	map->y_offset = (W_HEIGHT - (map->height * map->zoom) / 2) / 2;
+	map->z_factor = 0.6;
 	map->projection = 1;
 	ft_projection(map);
+}
+
+int	ft_mlx_move(int keycode, t_env *env)
+{
+	if (keycode == KEY_A)
+	{
+		env->map.x_offset -= 5;
+		ft_draw_map(env);
+		return (0);
+	}
+	else if (keycode == KEY_D)
+	{
+		env->map.x_offset += 5;
+		ft_draw_map(env);
+		return (0);
+	}
+	else if (keycode == KEY_W)
+	{
+		env->map.y_offset -= 5;
+		ft_draw_map(env);
+		return (0);
+	}
+	else if (keycode == KEY_S)
+	{
+		env->map.y_offset += 5;
+		ft_draw_map(env);
+		return (0);
+	}
+	return (1);
 }
 
 void	f(void)

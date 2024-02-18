@@ -6,23 +6,11 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 20:09:55 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/17 21:00:54 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/18 10:19:32 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-
-int	ft_index(char c, char *str)
-{
-	int	i;
-
-	i = 0;
-	while (*(str + i) && *(str + i) != c)
-		i++;
-	if (*(str + i) == '\0')
-		return (-1);
-	return (i);
-}
 
 int	ft_atoi_hex(char *hex)
 {
