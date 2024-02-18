@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 09:35:57 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/18 10:21:25 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/18 12:40:59 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,25 @@ float	ft_angle_overflow(float *angle)
 	else if (*angle <= -M_PI)
 		return (M_PI);
 	return (*angle);
+}
+
+int	ft_parse_value(t_point *pos, char *value)
+{
+	char	**parsed_value;
+
+	if (ft_strchr(value, ','))
+	{
+		parsed_value = ft_split(value, ',');
+		if (!parsed_value)
+			return (-1);
+		pos->color = ft_atoi_hex(parsed_value[1]);
+		pos->z = ft_atoi(parsed_value[0]);
+		ft_free((void **)parsed_value);
+	}
+	else
+	{
+		pos->color = 0;
+		pos->z = ft_atoi(value);
+	}
+	return (0);
 }

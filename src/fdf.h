@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 17:11:50 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/18 12:29:00 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/18 12:41:10 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,7 @@ int		ft_mlx_move(int keycode, t_env *env);
 int		ft_end(void *param);
 
 void	ft_get_map(t_map *map);
+int		ft_parse_value(t_point *pos, char *value);
 void	ft_validate_map(char *buffer, int rd, t_map *map, int *x);
 void	ft_default_color(t_map *map);
 int		ft_atoi_hex(char *hex);

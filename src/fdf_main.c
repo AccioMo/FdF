@@ -6,11 +6,28 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 17:11:16 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/18 12:30:40 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/18 12:51:48 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+void	ft_init_mlx(t_env *env)
+{
+	env->mlx = mlx_init();
+	if (!env->mlx)
+		ft_exit(5, "init error.\n");
+	env->win = mlx_new_window(env->mlx, W_WIDTH, W_HEIGHT, "Fil de Fer");
+	if (!env->win)
+		ft_exit(5, "error creating window.\n");
+	env->img.img = mlx_new_image(env->mlx, W_WIDTH, W_HEIGHT);
+	if (!env->img.img)
+		ft_exit(5, "error creating image.\n");
+	env->img.addr = mlx_get_data_addr(env->img.img, &env->img.bpp, \
+		&env->img.n_bytes, &env->img.endian);
+	if (!env->img.addr)
+		ft_exit(5, "error initializing image data.\n");
+}
 
 int	main(int argc, char *argv[])
 {
@@ -29,19 +46,7 @@ int	main(int argc, char *argv[])
 	ft_get_map(&env.map);
 	ft_default_color(&env.map);
 	ft_set_params(&env.map);
-	env.mlx = mlx_init();
-	if (!env.mlx)
-		ft_exit(5, "init error.\n");
-	env.win = mlx_new_window(env.mlx, W_WIDTH, W_HEIGHT, "Fil de Fer");
-	if (!env.win)
-		ft_exit(5, "error creating window.\n");
-	env.img.img = mlx_new_image(env.mlx, W_WIDTH, W_HEIGHT);
-	if (!env.img.img)
-		ft_exit(5, "error creating image.\n");
-	env.img.addr = mlx_get_data_addr(env.img.img, &env.img.bpp, \
-		&env.img.n_bytes, &env.img.endian);
-	if (!env.img.addr)
-		ft_exit(5, "error initializing image data.\n");
+	ft_init_mlx(&env);
 	mlx_hook(env.win, ON_KEYDOWN, 0, ft_key_event, (void *)&env);
 	mlx_hook(env.win, ON_MOUSEMOVE, 0, ft_mouse_move, (void *)&env);
 	mlx_hook(env.win, ON_MOUSEDOWN, 0, ft_mouse_down, (void *)&env);
