@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 22:29:48 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/18 10:16:30 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/19 15:21:40 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,9 @@ int	ft_mouse_up(int mousecode, int x, int y, void *param)
 {
 	t_env	*env;
 
+	(void)x;
+	(void)y;
+	(void)mousecode;
 	env = (t_env *)param;
 	env->mouse.click = 0;
 	return (0);

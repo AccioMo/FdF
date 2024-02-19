@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 13:07:32 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/18 12:17:53 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/19 20:31:57 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,35 @@ int	ft_exit(int code, char *str)
 	}
 	ft_putstr_fd("\033[0m", 2);
 	exit(EXIT_FAILURE);
+}
+
+void	f(void)
+{
+	system("leaks fdf");
+}
+
+int	ft_end(void *param)
+{
+	t_env	*env;
+
+	atexit(f);
+	env = (t_env *)param;
+	mlx_clear_window(env->mlx, env->win);
+	mlx_destroy_image(env->mlx, env->img.img);
+	mlx_destroy_window(env->mlx, env->win);
+	ft_free((void **)env->map.map);
+	exit(0);
+	return (1);
+}
+
+void	ft_free(void **ptr)
+{
+	void	**hold;
+
+	hold = ptr;
+	if (!ptr)
+		return ;
+	while (*ptr)
+		free(*ptr++);
+	free(hold);
 }

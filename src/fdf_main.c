@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 17:11:16 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/18 13:50:53 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/19 15:20:23 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,5 @@ int	main(int argc, char *argv[])
 	mlx_hook(env.win, ON_DESTROY, 0, ft_end, (void *)&env);
 	ft_draw_map(&env);
 	mlx_loop(env.mlx);
+	return (0);
 }

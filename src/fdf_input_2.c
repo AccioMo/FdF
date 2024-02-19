@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 23:06:25 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/18 14:30:53 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/19 20:31:53 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,25 +77,5 @@ int	ft_mlx_move(int keycode, t_env *env)
 		ft_draw_map(env);
 		return (0);
 	}
-	return (1);
-}
-
-void	f(void)
-{
-	system("leaks fdf");
-}
-
-int	ft_end(void *param)
-{
-	t_env	*env;
-
-	atexit(f);
-	env = (t_env *)param;
-	mlx_clear_window(env->mlx, env->win);
-	mlx_destroy_image(env->mlx, env->img.img);
-	mlx_destroy_window(env->mlx, env->win);
-	ft_free((void **)env->map.map);
-	free(env->mlx);
-	exit(0);
 	return (1);
 }

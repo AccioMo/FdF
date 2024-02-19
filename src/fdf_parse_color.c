@@ -6,13 +6,13 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 10:22:02 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/18 10:27:51 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/19 15:22:06 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static void	ft_get_color(int *color, float p)
+static void	ft_positive_color(int *color, float p)
 {
 	if (p > 0.90)
 		*color = 0xfb7e00;
@@ -49,12 +49,12 @@ void	ft_default_color(t_map *map)
 			if (map->map[i][j].z >= 0 && !map->map[i][j].color)
 			{
 				p = map->map[i][j].z / map->max_z;
-				ft_get_color(&map->map[i][j].color, p);
+				ft_positive_color(&map->map[i][j].color, p);
 			}
 			else if (!map->map[i][j].color)
 			{
 				p = map->map[i][j].z / map->min_z;
-				ft_get_color(&map->map[i][j].color, p);
+				ft_negative_color(&map->map[i][j].color, p);
 			}
 			j++;
 		}

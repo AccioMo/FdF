@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 09:35:57 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/18 16:45:03 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/19 20:30:40 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,6 @@ int	ft_get_len(char **ptr)
 	while (*(ptr + i))
 		i++;
 	return (i);
-}
-
-void	ft_free(void **ptr)
-{
-	void	**hold;
-
-	hold = ptr;
-	if (!ptr)
-		return ;
-	while (*ptr)
-		free(*ptr++);
-	free(hold);
 }
 
 int	ft_index(char c, char *str)

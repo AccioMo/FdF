@@ -6,24 +6,11 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 17:19:20 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/19 00:09:25 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/19 20:29:02 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-
-void	ft_put_pixel(int x, int y, int color, t_image *img)
-{
-	char	*dst;
-
-	if ((0 <= x && x < W_WIDTH) && (0 <= y && y < W_HEIGHT))
-	{
-		x *= (img->bpp / 8);
-		y *= img->n_bytes;
-		dst = img->addr + x + y;
-		*(unsigned int *) dst = color;
-	}
-}
 
 static void	ft_swap(float *a, float *b)
 {
@@ -40,7 +27,7 @@ static float	ft_get_step(t_vector *vector)
 	float	dy;
 
 	vector->rev = 0;
-	if (vector->steep)
+	if (vector->vert)
 	{
 		ft_swap(&vector->a.x, &vector->a.y);
 		ft_swap(&vector->b.x, &vector->b.y);
@@ -63,14 +50,14 @@ static void	ft_draw_line(t_vector *v, t_image *img)
 	int	c;
 
 	v->dx = v->b.x - v->a.x;
-	if (v->steep)
+	if (v->vert)
 	{
 		while (v->a.x <= v->b.x)
 		{
 			c = ft_color(v->a.color, v->b.color, v, (v->b.x - v->a.x) / v->dx);
 			ft_put_pixel(v->a.y, v->a.x, gradiant(c, rdecimal(v->a.y)), img);
 			ft_put_pixel(v->a.y + 1, v->a.x, gradiant(c, decimal(v->a.y)), img);
-			v->a.y += v->gradiant;
+			v->a.y += v->step;
 			v->a.x++;
 		}
 	}
@@ -81,10 +68,34 @@ static void	ft_draw_line(t_vector *v, t_image *img)
 			c = ft_color(v->a.color, v->b.color, v, (v->b.x - v->a.x) / v->dx);
 			ft_put_pixel(v->a.x, v->a.y, gradiant(c, rdecimal(v->a.y)), img);
 			ft_put_pixel(v->a.x, v->a.y + 1, gradiant(c, decimal(v->a.y)), img);
-			v->a.y += v->gradiant;
+			v->a.y += v->step;
 			v->a.x++;
 		}
 	}
+}
+
+static int	ft_in_screen(t_point *a, t_point *b)
+{
+	float	m;
+	float	y;
+	float	x;
+
+	m = (b->y - a->y) / (b->x - a->x);
+	y = m * (W_WIDTH - a->x) + a->y;
+	if ((b->x - a->x) == 0)
+		m = 1;
+	if (y >= 0 && y <= W_HEIGHT)
+		return (1);
+	y = m * (0 - a->x) + a->y;
+	if (y >= 0 && y <= W_HEIGHT)
+		return (1);
+	x = (W_HEIGHT - a->y) / m + a->x;
+	if (x >= 0 && x <= W_WIDTH)
+		return (1);
+	x = (0 - a->y) / m + a->x;
+	if (x >= 0 && x <= W_WIDTH)
+		return (1);
+	return (0);
 }
 
 void	ft_aa_draw(t_point *a, t_point *b, t_image *img, t_map *map)
@@ -95,9 +106,9 @@ void	ft_aa_draw(t_point *a, t_point *b, t_image *img, t_map *map)
 	vct.b = *b;
 	ft_rotate(&vct.a, map);
 	ft_rotate(&vct.b, map);
-	if (((vct.a.x < 0 || vct.a.x > W_WIDTH) && (vct.b.x < 0 || vct.b.x > W_WIDTH)) || ((vct.a.y < 0 || vct.a.y > W_HEIGHT) && (vct.b.y < 0 || vct.b.y > W_HEIGHT)))
+	vct.vert = abs((int)(vct.b.y - vct.a.y)) > abs((int)(vct.b.x - vct.a.x));
+	if (!ft_in_screen(&vct.a, &vct.b))
 		return ;
-	vct.steep = abs((int)(vct.b.y - vct.a.y)) > abs((int)(vct.b.x - vct.a.x));
-	vct.gradiant = ft_get_step(&vct);
+	vct.step = ft_get_step(&vct);
 	ft_draw_line(&vct, img);
 }

@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 11:48:12 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/18 23:48:02 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/19 13:54:05 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,8 @@ void	ft_validate_map(char *buffer, t_map *map)
 			if (!ft_strncmp(buffer + i, ",0x", 3))
 			{
 				i += 3;
-				while (buffer[i] && ft_isdigit(buffer[i]) || \
-						ft_strchr("abcdefABCDEF", buffer[i]))
+				while (buffer[i] && (ft_isdigit(buffer[i]) || \
+						ft_strchr("abcdefABCDEF", buffer[i])))
 					i++;
 			}
 			x++;

@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 20:09:55 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/18 23:55:21 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/19 15:19:19 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	ft_atoi_hex(char *hex)
 {
 	unsigned int	nbr;
-	unsigned int	digit;
+	int				digit;
 
 	nbr = 0;
 	hex += 2;

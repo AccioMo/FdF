@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 22:28:45 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/18 15:34:03 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/19 20:30:07 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,19 @@ float	decimal(float nb)
 float	rdecimal(float nb)
 {
 	return (1 - decimal(nb));
+}
+
+void	ft_put_pixel(int x, int y, int color, t_image *img)
+{
+	char	*dst;
+
+	if ((0 <= x && x < W_WIDTH) && (0 <= y && y < W_HEIGHT))
+	{
+		x *= (img->bpp / 8);
+		y *= img->n_bytes;
+		dst = img->addr + x + y;
+		*(unsigned int *) dst = color;
+	}
 }
 
 static void	ft_print_menu(t_env *env, int menu_offset)
@@ -64,17 +77,6 @@ static void	ft_color_window(t_env *env, int menu_offset, int color)
 		y++;
 	}
 }
-
-// static void	ft_clear_map(t_image *img)
-// {
-// 	int	len;
-// 	int	i;
-
-// 	i = 0;
-// 	// len = W_WIDTH * W_HEIGHT * (img->bpp / 8);
-// 	// while (i < len)
-// 	// 	img->addr[i++] = '\0';
-// }
 
 void	ft_draw_map(t_env *env)
 {

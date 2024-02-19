@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 17:11:50 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/18 23:28:53 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/19 19:53:22 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,8 @@ typedef struct s_vector
 	t_point	b;
 	float	dx;
 	int		rev;
-	int		steep;
-	float	gradiant;
+	int		vert;
+	float	step;
 }	t_vector;
 
 typedef struct s_map
