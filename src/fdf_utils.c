@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 09:35:57 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/19 20:30:40 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/21 11:56:20 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_get_len(char **ptr)
 	i = 0;
 	if (!ptr)
 		return (0);
-	while (*(ptr + i))
+	while (ptr[i] && *(ptr[i]) != '\n')
 		i++;
 	return (i);
 }

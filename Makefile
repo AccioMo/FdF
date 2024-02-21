@@ -9,8 +9,8 @@ SRC_DIR = src/
 OBJ_DIR = obj/
 HEADER = $(SRC_DIR)fdf.h
 FILES = fdf_main.c fdf_map.c fdf_draw_1.c fdf_draw_2.c fdf_math.c fdf_color.c \
-	fdf_mouse.c fdf_utils.c fdf_input_1.c fdf_input_2.c fdf_parse_color.c \
-	fdf_parse_map.c fdf_exit.c
+	fdf_mouse.c fdf_utils.c fdf_input_1.c fdf_input_2.c fdf_color_parse.c \
+	 fdf_draw_map.c fdf_map_parse.c fdf_exit.c
 SRC = $(addprefix $(SRC_DIR), $(FILES))
 OBJ = $(addprefix $(OBJ_DIR), $(FILES:.c=.o))
 

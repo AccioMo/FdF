@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 11:42:53 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/01/11 20:40:25 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/21 11:34:54 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	ft_bufferlen(char *buffer)
 	return (len + (*(buffer + len) == '\n'));
 }
 
-static char	*ft_strncpy(char *dest, char *src, int n)
+char	*ft_strncpy(char *dest, char *src, int n)
 {
 	while (n > 0 && *src)
 	{

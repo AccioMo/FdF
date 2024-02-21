@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf_parse_map.c                                    :+:      :+:    :+:   */
+/*   fdf_map_parse.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 11:48:12 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/19 13:54:05 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/21 12:21:02 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static void	ft_map_error(t_map *map, char *str, int c)
+static void	ft_map_error(t_map *map, char *str, int c, int lno)
 {
 	ft_putstr_fd("\033[0;31m", 2);
 	ft_putstr_fd(map->name, 2);
@@ -20,21 +20,8 @@ static void	ft_map_error(t_map *map, char *str, int c)
 	ft_putstr_fd("\'", 2);
 	ft_putchar_fd(c, 2);
 	ft_putstr_fd("\' on line ", 2);
-	ft_putnbr_fd(map->height + 1, 2);
+	ft_putnbr_fd(lno + 1, 2);
 	ft_putstr_fd("\033[0m\n", 2);
-	exit(EXIT_FAILURE);
-}
-static char	*ft_strncpy(char *dest, char *src, int n)
-{
-	while (n > 0 && *src)
-	{
-		*dest = *src;
-		dest++;
-		src++;
-		n--;
-	}
-	*dest = '\0';
-	return (dest);
 }
 
 static char	*ft_nrealloc(char *src, char *buffer, int n)
@@ -76,50 +63,43 @@ char	*ft_fopen(int fd)
 	return (contents);
 }
 
-void	ft_validate_map(char *buffer, t_map *map)
+static int	ft_invalid_value(char *value, t_map *map, int lno)
 {
 	int	i;
-	int	x;
 
 	i = 0;
-	x = 0;
-	while (buffer[i])
+	if (value[i] == '-')
+		i++;
+	while (value[i] && value[i] != '\n')
 	{
-		if (buffer[i] == ' ')
+		if (ft_isdigit(value[i]))
 			i++;
-		else if (buffer[i] == '\n')
+		else if (!ft_strncmp(value + i, ",0x", 3))
 		{
-			if (!map->width)
-				map->width = x;
-			if (x == map->width)
-				map->height++;
-			else
-			{
-				free(buffer);
-				ft_map_error(map, ": inconsistent map width: ", buffer[i]);
-			}
-			x = 0;
-			i++;
-		}
-		else if (ft_isdigit(buffer[i]) || buffer[i] == '-')
-		{
-			if (buffer[i] == '-')
+			i += 3;
+			while (value[i] && (ft_isdigit(value[i]) || \
+					ft_strchr("abcdefABCDEF", value[i])))
 				i++;
-			while (buffer[i] && ft_isdigit(buffer[i]))
-				i++;
-			if (!ft_strncmp(buffer + i, ",0x", 3))
-			{
-				i += 3;
-				while (buffer[i] && (ft_isdigit(buffer[i]) || \
-						ft_strchr("abcdefABCDEF", buffer[i])))
-					i++;
-			}
-			x++;
 		}
 		else
 		{
-			free(buffer);
-			ft_map_error(map, ": invalid character in map: ", buffer[i]);
+			ft_map_error(map, ": invalid character: ", value[i], lno);
+			return (EXIT_FAILURE);
 		}
 	}
+	return (EXIT_SUCCESS);
+}
+
+int	ft_invalid(char **line, t_map *map)
+{
+	int	i;
+
+	i = 0;
+	while (i < map->width)
+	{
+		if (ft_invalid_value(line[i], map, i))
+			return (EXIT_FAILURE);
+		i++;
+	}
+	return (EXIT_SUCCESS);
 }

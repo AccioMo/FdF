@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf_error.c                                        :+:      :+:    :+:   */
+/*   fdf_exit.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 13:07:32 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/19 20:31:57 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/21 13:22:17 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ int	ft_exit(int code, char *str)
 	}
 	if (code == 4)
 	{
-		ft_putstr_fd("map: ", 2);
 		ft_putstr_fd(str, 2);
+		ft_putstr_fd(": empty file.\n", 2);
 	}
 	if (code == 5)
 	{
@@ -41,16 +41,10 @@ int	ft_exit(int code, char *str)
 	exit(EXIT_FAILURE);
 }
 
-void	f(void)
-{
-	system("leaks fdf");
-}
-
 int	ft_end(void *param)
 {
 	t_env	*env;
 
-	atexit(f);
 	env = (t_env *)param;
 	mlx_clear_window(env->mlx, env->win);
 	mlx_destroy_image(env->mlx, env->img.img);
