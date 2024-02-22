@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf_draw_map.c                                     :+:      :+:    :+:   */
+/*   fdf_draw_map_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 13:16:26 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/21 18:43:16 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/21 18:47:28 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "fdf_bonus.h"
 
 static void	ft_print_info_2(void *mlx, void *win, t_map *map, int mo)
 {

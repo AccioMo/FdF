@@ -21,13 +21,21 @@ BONUS_FILES = ft_lstdelone_bonus.c ft_lstlast_bonus.c ft_lstiter_bonus.c ft_lstc
 BONUS_SRC = $(addprefix $(BONUS_SRC_DIR), $(BONUS_FILES))
 BONUS_OBJ = $(addprefix $(BONUS_OBJ_DIR), $(BONUS_FILES:.c=.o))
 
+GREEN = \033[0;32m
+RED = \033[0;31m
+RESET = \033[0m
+CYAN = \033[0;36m
+BOLD = \033[1m
+
 all: $(OBJ_DIR) $(NAME)
 
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
 
 $(NAME): $(OBJ)
+	@echo "$(GREEN)$(BOLD)LIBFT:$(RESET) $(CYAN)Creating library...$(RESET)"
 	ar rcs $(NAME) $(OBJ)
+	@echo "$(GREEN)$(BOLD)LIBFT:$(RESET) $(CYAN)Library created$(RESET)"
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 	$(CC) $(FLAGS) -I. -c $< -o $@
@@ -39,15 +47,19 @@ $(BONUS_OBJ_DIR):
 
 $(BONUS): $(OBJ) $(BONUS_OBJ) $(HEADER)
 	ar rcs $(BONUS) $(OBJ) $(BONUS_OBJ)
+	@echo "$(GREEN)$(BOLD)LIBFT:$(RESET) $(CYAN)Bonus library created$(RESET)"
 
 $(BONUS_OBJ_DIR)%.o: $(BONUS_SRC_DIR)%.c $(HEADER)
 	$(CC) $(FLAGS) -I. -c $< -o $@
+	@echo "$(GREEN)$(BOLD)LIBFT:$(RESET) $(CYAN)Compiled:$(RESET) $(notdir $<)"
 
 clean:
 	rm -f $(OBJ) $(BONUS_OBJ)
+	@echo "$(RED)$(BOLD)LIBFT:$(RESET) $(CYAN)Object files removed$(RESET)"
 
 fclean: clean
 	rm -f $(NAME) $(BONUS)
+	@echo "$(RED)$(BOLD)LIBFT:$(RESET) $(CYAN)Library removed$(RESET)"
 
 re: fclean all
 

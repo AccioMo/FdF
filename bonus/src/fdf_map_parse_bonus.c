@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf_map_parse.c                                    :+:      :+:    :+:   */
+/*   fdf_map_parse_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 11:48:12 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/21 18:21:48 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/21 18:28:35 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "fdf_bonus.h"
 
 static void	ft_map_error(t_map *map, char *str, int c, int lno)
 {
@@ -50,14 +50,21 @@ char	*ft_fopen(int fd)
 	rd = 1;
 	contents = NULL;
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, NULL, 0) == -1)
-		return (close(fd), NULL);
+	{
+		close(fd);
+		return (NULL);
+	}
 	buffer[BUFFER_SIZE] = '\0';
 	while (rd > 0)
 	{
 		rd = read(fd, buffer, BUFFER_SIZE);
 		contents = ft_nrealloc(contents, buffer, rd);
 		if (!contents)
-			return (close(fd), free(buffer), NULL);
+		{
+			free(buffer);
+			close(fd);
+			return (NULL);
+		}
 	}
 	close(fd);
 	return (contents);

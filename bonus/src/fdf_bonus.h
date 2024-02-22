@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.h                                              :+:      :+:    :+:   */
+/*   fdf_bonus.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 17:11:50 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/22 10:26:20 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/02/22 10:27:38 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FDF_H
-# define FDF_H
+#ifndef FDF_BONUS_H
+# define FDF_BONUS_H
 
 # include <fcntl.h>
 # include <stdlib.h>
 # include <stdio.h>
 # include <mlx.h>
 # include <math.h>
-# include "../libft/libft.h"
-# include "../get_next_line/get_next_line.h"
+# include "../../libft/libft.h"
+# include "../../get_next_line/get_next_line.h"
 
 # define W_WIDTH 1920
 # define W_HEIGHT 1080
