@@ -2,7 +2,11 @@ CC = cc
 FLAGS = -Wall -Wextra -Werror -O3
 LIBFT = libft/libft.a
 LIBFT_DIR = libft/
-GNL = get_next_line/get_next_line.c get_next_line/get_next_line_utils.c
+GNL_DIR = get_next_line/
+GNL = $(GNL_DIR)get_next_line.c $(GNL_DIR)get_next_line_utils.c
+MLX_DIR = mlx/
+MLX = $(MLX_DIR)libmlx.a
+INCLUDE = -I. -I$(MLX) -I$(LIBFT_DIR) -I$(GNL_DIR)
 
 NAME = fdf
 SRC_DIR = src/
@@ -30,9 +34,9 @@ RESET = \033[0m
 CYAN = \033[0;36m
 BOLD = \033[1m
 
-.PHONY: all $(LIBFT) clean fclean re
+.PHONY: all $(LIBFT) $(MLX) clean fclean re
 
-all: $(OBJ_DIR) $(LIBFT) $(NAME)
+all: $(OBJ_DIR) $(MLX) $(LIBFT) $(NAME)
 
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
@@ -40,12 +44,15 @@ $(OBJ_DIR):
 $(LIBFT): $(LIBFT_DIR)
 	@make -C $<
 
+$(MLX): $(MLX_DIR)
+	@make -C $<
+
 $(NAME): $(OBJ)
-	$(CC) $(OBJ) $(LIBFT) $(GNL) -lmlx -framework OpenGL -framework AppKit -o $(NAME)
+	$(CC) $(OBJ) $(LIBFT) $(GNL) $(MLX) -framework OpenGL -framework AppKit -o $(NAME)
 	@echo "$(GREEN)$(BOLD)FDF:$(RESET) $(CYAN)Executable created$(RESET)"
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c $(HEADER)
-	$(CC) $(FLAGS) -c $< -o $@
+	$(CC) $(FLAGS) $(INCLUDE) -c $< -o $@
 	@echo "$(GREEN)$(BOLD)FDF:$(RESET) $(CYAN)Compiled:$(RESET) $(notdir $<)"
 
 bonus: $(OBJ_DIR_BONUS) $(LIBFT) $(NAME_BONUS)
@@ -54,11 +61,11 @@ $(OBJ_DIR_BONUS):
 	mkdir -p $(OBJ_DIR_BONUS)
 
 $(NAME_BONUS): $(OBJ_BONUS)
-	$(CC) $(OBJ_BONUS) $(LIBFT) $(GNL) -lmlx -framework OpenGL -framework AppKit -o $(NAME_BONUS)
+	$(CC) $(OBJ_BONUS) $(LIBFT) $(GNL) $(MLX) -framework OpenGL -framework AppKit -o $(NAME_BONUS)
 	@echo "$(GREEN)$(BOLD)FDF:$(RESET) $(CYAN)Executable created$(RESET)"
 
 $(OBJ_DIR_BONUS)%.o: $(SRC_DIR_BONUS)%.c $(HEADER_BONUS)
-	$(CC) $(FLAGS) -c $< -o $@
+	$(CC) $(FLAGS) $(INCLUDE) -c $< -o $@
 	@echo "$(GREEN)$(BOLD)FDF:$(RESET) $(CYAN)Compiled:$(RESET) $(notdir $<)"
 
 clean:

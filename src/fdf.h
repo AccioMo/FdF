@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 17:11:50 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/22 10:26:20 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2025/02/07 23:27:20 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 # include <fcntl.h>
 # include <stdlib.h>
 # include <stdio.h>
-# include <mlx.h>
 # include <math.h>
-# include "../libft/libft.h"
-# include "../get_next_line/get_next_line.h"
+# include "mlx.h"
+# include "libft.h"
+# include "get_next_line.h"
 
 # define W_WIDTH 1920
 # define W_HEIGHT 1080
